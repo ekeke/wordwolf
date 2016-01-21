@@ -1,26 +1,44 @@
 <html lang="ja">
 <div id="config" class="page">
   <ul>
-    <li><label>村ワード<input type="text" id="villagerWord" /></label></li>
-    <li><label>狼ワード<input type="text" id="wolfWord" /></label></li>
-    <li><label>村人の人数<input type="number" id="villagers" /></label></li>
-    <li><label>人狼の人数<input type="number" id="wolves" /></label></li>
+    <li><label>村ワード<input type="text" id="villagerWord" value="リンゴ" /></label></li>
+    <li><label>狼ワード<input type="text" id="wolfWord" value="みかん" /></label></li>
+    <li><label>村人の人数<input type="number" id="villagers" value="3" /></label></li>
+    <li><label>人狼の人数<input type="number" id="wolves" value="1" /></label></li>
   </ul>
   <a href="#" id="start">開始</a>
 </div>
 <div id="game" class="page">
   プレイヤー<span id="player-number"></span>さんにワードをお知らせします。
   あなたのワードは<span id="word-placeholder"><a href="#" id="open-word">????????</a></span><span id="the-word"></span>です。
-  <a href="#" id="accept-word">確認しました</a>
+  <div>
+    <a href="#" id="accept-word">確認しました</a>
+  </div>
 </div>
 <div id="playing" class="page">
 議論を行ってください
-<a href="#" id="show-result">結果確認</a>
+<a href="#" id="finish-discussion">議論を終了する</a>
 </div>
 <div id="result" class="page">
-  <ul id="result-list">
-  </ul>
-  <a href="#" id="next-game">次の問題へ</a>
+  <ol>
+    <li>追放するプレイヤーを投票で決めてください。
+      <ul><li>トップが同票となった場合、追放失敗となり人狼の勝利となります</li></ul>
+    </li>
+    <li>追放されるプレイヤーは自分のワードを公開します。
+    <li>同じワードを持つプレイヤーの人数を確認し
+      <ul>
+        <li>多数派ならば人狼の勝利です。</li>
+        <li>少数派（人狼）が追放される場合、市民側のワードを当てることで逆転勝利となります。</li>
+      </ul>
+    </li>
+  </ol>
+  <div>
+    <a href="#" id="show-results">全員の正体を表示する</a>
+    <ul id="result-list"></ul>
+  </div>
+  <div>
+    <a href="#" id="next-game">次の問題へ</a>
+  </div>
 </div>
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="game.js"></script>
@@ -31,9 +49,14 @@ var playerId;
 
 $('#start').click( prepareWords );
 $('#accept-word').click( acceptWord );
-$('#show-result').click( function () {
+$('#finish-discussion').click( function () {
   showPage('result');
 });
+
+$('#show-results').click( function () {
+  $('#result-list').show();
+});
+
 $('#next-game').click(function () {
   showPage('config');
 });
@@ -43,6 +66,7 @@ function showPage (page) {
   $('#' + page).show();
 }
 showPage('config');
+
 function prepareWords () {
   players = makePlayers(
     $('#villagerWord').val(),
@@ -57,6 +81,7 @@ function prepareWords () {
   playerId = 0;
   setNextWord();
   showPage('game');
+  $('#result-list').hide();
   return false;
 }
 
@@ -72,6 +97,7 @@ function openWord () {
   $('#word-placeholder').hide();
   $('#the-word').show();
   $('#accept-word').show();
+  return false;
 }
 
 function acceptWord () {
@@ -81,6 +107,7 @@ function acceptWord () {
   else {
     showPage('playing');
   }
+  return false;
 }
 
 </script>
