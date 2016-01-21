@@ -1,0 +1,87 @@
+<html lang="ja">
+<div id="config" class="page">
+  <ul>
+    <li><label>村ワード<input type="text" id="villagerWord" /></label></li>
+    <li><label>狼ワード<input type="text" id="wolfWord" /></label></li>
+    <li><label>村人の人数<input type="number" id="villagers" /></label></li>
+    <li><label>人狼の人数<input type="number" id="wolves" /></label></li>
+  </ul>
+  <a href="#" id="start">開始</a>
+</div>
+<div id="game" class="page">
+  プレイヤー<span id="player-number"></span>さんにワードをお知らせします。
+  あなたのワードは<span id="word-placeholder"><a href="#" id="open-word">????????</a></span><span id="the-word"></span>です。
+  <a href="#" id="accept-word">確認しました</a>
+</div>
+<div id="playing" class="page">
+議論を行ってください
+<a href="#" id="show-result">結果確認</a>
+</div>
+<div id="result" class="page">
+  <ul id="result-list">
+  </ul>
+  <a href="#" id="next-game">次の問題へ</a>
+</div>
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="game.js"></script>
+<script>
+
+var players;
+var playerId;
+
+$('#start').click( prepareWords );
+$('#accept-word').click( acceptWord );
+$('#show-result').click( function () {
+  showPage('result');
+});
+$('#next-game').click(function () {
+  showPage('config');
+});
+
+function showPage (page) {
+  $('.page').hide();
+  $('#' + page).show();
+}
+showPage('config');
+function prepareWords () {
+  players = makePlayers(
+    $('#villagerWord').val(),
+    $('#wolfWord').val(),
+    $('#villagers').val(),
+    $('#wolves').val()
+  );
+  $('#result-list').empty();
+  for ( var i=0;i<players.length;i++ ) {
+    $('<li>').text('プレイヤー' + (i+1) + ': ' + players[i]).appendTo($('#result-list'));
+  }
+  playerId = 0;
+  setNextWord();
+  showPage('game');
+  return false;
+}
+
+function setNextWord () {
+  $('#word-placeholder').show();
+  $('#player-number').text(playerId+1);
+  $('#the-word').text( players[playerId++] ).hide();
+  $('#accept-word').hide();
+}
+
+$('#open-word').click( openWord );
+function openWord () {
+  $('#word-placeholder').hide();
+  $('#the-word').show();
+  $('#accept-word').show();
+}
+
+function acceptWord () {
+  if ( playerId < players.length ) {
+    setNextWord();
+  }
+  else {
+    showPage('playing');
+  }
+}
+
+</script>
+</html>
