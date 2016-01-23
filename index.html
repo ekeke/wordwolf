@@ -1,6 +1,8 @@
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <div id="config-village" class="page">
@@ -20,7 +22,7 @@
   <section>
     <ul id="player-names"></ul>
   </section>
-  <a href="#" id="to-config-wordpair">ワード登録へ</a>
+  <a href="#" id="to-config-wordpair" class="next-button">ワード登録へ</a>
 </div>
 <div id="config-wordpair" class="page">
   <div>ゲームマスター（GM）を一人選んでください（GMは試合には参加できません）</div>
@@ -32,14 +34,14 @@
     <li><label>狼ワード<input type="text" id="wolfWord" value="みかん" /></label></li>
   </ul>
   </div>
-  <a href="#" id="to-tell-words">開始</a>
+  <a href="#" id="to-tell-words" class="next-button">開始</a>
 </div>
 
 <div id="tell-words" class="page">
   <span id="player-name-to-tell"></span>さんにワードをお知らせします。
-  あなたのワードは<span id="word-placeholder"><a href="#" id="open-word">????????</a></span><span id="the-word"></span>です。
+  あなたのワードは<div id="word-placeholder"><a href="#" id="open-word">????????</a></div><div id="the-word"></div>です。
   <div>
-    <a href="#" id="accept-word">確認しました</a>
+    <a href="#" id="accept-word" class="next-button">確認しました</a>
   </div>
 </div>
 <div id="playing" class="page">
