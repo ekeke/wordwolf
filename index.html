@@ -38,7 +38,7 @@
 </div>
 
 <div id="tell-words" class="page">
-  <span id="player-name-to-tell"></span>さんにワードをお知らせします。
+  <span id="player-name-to-tell" class="player-name"></span>さんにワードをお知らせします。
   あなたのワードは<div id="word-placeholder"><a href="#" id="open-word">？？？</a><span id="the-word"></span></div>です。
   <div>
     <a href="#" id="accept-word" class="next-button">確認しました</a>
@@ -55,7 +55,7 @@
 <a href="#" id="finish-discussion" class="next-button">議論を終了する</a>
 </div>
 <div id="vote" class="page">
-  <span id="voter-name"></span>さん、投票を行ってください
+  <span id="voter-name" class="player-name"></span>さん、投票を行ってください
   <ul id="select-candidate">
   </ul>
 </div>
@@ -66,14 +66,14 @@
 <a href="#" class="to-result next-button">結果を表示</a>
 </div>
 <div id="result-villager-banished" class="page">
-追放された<span class="banished-person-name"></span>さんは村人でした。
+追放された<span class="banished-person-name player-name"></span>さんは村人でした。
 人狼の勝利です。
 <a href="#" class="to-result next-button">結果を表示</a>
 </div>
 
 
 <div id="result-wolf-banished" class="page">
-追放された<span class="banished-person-name"></span>さんは人狼でした。
+追放された<span class="banished-person-name player-name"></span>さんは人狼でした。
 <span class="banished-person-name"></span>さんは、村ワードを当てることで逆転勝利ができます。
 <a href="#" id="finally-wolves-win" class="next-button">逆転勝利に成功</a>
 <a href="#" id="finally-wolves-lose" class="next-button">逆転勝利に失敗</a>
@@ -220,7 +220,7 @@ function showPage (page) {
 }
 
 function addPlayer(id,name) {
-  $('<li class="player-holder"><input type="text" class="player-name" data-player-id="' + id + '" value="' + name +'"/><a href="#" class="delete-player action-button" data-player-id="' + id + '" style="display: none;">削除</a></li>').appendTo('#player-list');
+  $('<li class="player-holder"><input type="text" class="js-player-name" data-player-id="' + id + '" value="' + name +'"/><a href="#" class="delete-player action-button" data-player-id="' + id + '" style="display: none;">削除</a></li>').appendTo('#player-list');
   return false;
 }
 
@@ -232,7 +232,7 @@ $('#add-more-player').on('click', function () {
   $('.delete-player').show();
 });
 
-$(document).on('change', '.player-name', function () {
+$(document).on('change', '.js-player-name', function () {
   var id = $(this).attr('data-player-id');
   players.member[id].name = $(this).val();
 });
@@ -249,7 +249,7 @@ $(document).on('click', '.delete-player', function () {
   if ( current <= 0 ) {
     current = 1;
   }
-  var numPlayers = $('.player-name').length;
+  var numPlayers = $('.js-player-name').length;
   var max_wolves = parseInt((numPlayers - 1)/2);
   if ( max_wolves < current ) {
     current = max_wolves;
@@ -265,7 +265,7 @@ $('.change-wolves-num').click(function () {
   if ( current <= 0 ) {
     current = 1;
   }
-  var players = $('.player-name').length;
+  var players = $('.js-player-name').length;
   var max_wolves = parseInt((players - 1)/2);
   if ( max_wolves < current ) {
     current = max_wolves;
