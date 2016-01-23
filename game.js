@@ -44,6 +44,7 @@ Players.prototype.maxId = function () {
 };
 
 Players.prototype.load = function () {
+  this.member = {};
   var json = localStorage.players
     || '{"0":{"name":"プレイヤー1","point":0},"1":{"name":"プレイヤー2","point":0},"2":{"name":"プレイヤー3","point":0},"3":{"name":"プレイヤー4","point":0}}';
   var saved = JSON.parse(json);

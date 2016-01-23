@@ -12,6 +12,7 @@
     <li id="player-list"></li>
   </ul>
   <div><a href="#" id="add-more-player" class="action-button">プレイヤーを追加</a></div>
+  <div><a href="#" id="reset-players" class="action-button">プレイヤーとスコアを初期化</a></div>
   <div>
       <label for="wolves">人狼の人数</label>
       <a href="#" class="change-wolves-num" data-num="-1">◀</a>
@@ -81,6 +82,13 @@
 </div>
 
 <div id="result" class="page">
+
+  <h1>投票結果</h1>
+  <table id="js-vote-result">
+  </table>
+  <h1>ポイント</h1>
+  <table id="js-point-result">
+  </table>
   <a href="#" id="next-game" class="next-button">次の村へ</a>
 </div>
 <div id="help" class="page">
@@ -216,7 +224,44 @@ $('#next-game').click(function () {
 
 function showPage (page) {
   $('.page').hide();
+  if ( page === 'result' ) {
+    buildResult();
+  }
   $('#' + page).show();
+}
+
+function buildResult () {
+  var $voteTable = $('#js-vote-result').empty();
+  var $pointTable = $('#js-point-result').empty();
+  for ( var id in village.voteMap ) {
+    var $row = $('<tr />');
+    $('<td />').addClass('player-name').text( players.member[id].name ).appendTo($row);
+    $('<td />').text( '→' ).appendTo($row);
+    $('<td />').addClass('player-name').text( players.member[village.voteMap[id]].name ).appendTo($row);
+    $row.appendTo($voteTable);
+  }
+
+  var roleTrans = {
+    wolf: '人狼',
+    master: 'GM',
+    villager: '村人'
+  };
+  var $row = $('<tr />');
+  $('<th />').text('名前').appendTo($row);
+  $('<th />').text('役職').appendTo($row);
+  $('<th />').text('結果').appendTo($row);
+  $('<th />').text('累積').appendTo($row);
+  $row.appendTo($pointTable);
+
+  for ( var id in village.scoreMove ) {
+    var $row = $('<tr />');
+    $('<td />').addClass('player-name').text( players.member[id].name ).appendTo($row);
+    $('<td />').text( roleTrans[players.member[id].role] ).appendTo($row);
+    $('<td />').text( village.scoreMove[id] ).appendTo($row);
+    $('<td />').addClass('player-name').text( players.member[id].point ).appendTo($row);
+    $row.appendTo($pointTable);
+  }
+
 }
 
 function addPlayer(id,name) {
@@ -338,6 +383,20 @@ setInterval(function () {
   }
 },100);
 
+$('#reset-players').click( function () {
+  if ( confirm('プレイヤー名と累積スコアを消去します。よろしいですか？') ) {
+    localStorage.players = '{"0":{"name":"プレイヤー1","point":0},"1":{"name":"プレイヤー2","point":0},"2":{"name":"プレイヤー3","point":0},"3":{"name":"プレイヤー4","point":0}}';
+    players.load();
+    $('#player-list').empty();
+    for ( var id in players.member ) {
+      addPlayer(id,players.member[id].name);
+    }
+    var numPlayers = players.count();
+    if ( 4 < numPlayers ) {
+      $('.delete-player').show();
+    }
+  }
+});
 </script>
 </body>
 </html>

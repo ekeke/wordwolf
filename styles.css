@@ -1,4 +1,4 @@
-html,body,div,h1,h2,h3,h4,h5,h6,input,header,footer,section,ol,ul {
+html,body,div,h1,h2,h3,h4,h5,h6,input,header,footer,section,ol,ul,table,tr,td {
   border: 0;
   margin: 0;
   padding: 0;
@@ -12,6 +12,15 @@ body,div,h1,h2,h3,header,footer,section {
  'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',
  Meiryo, メイリオ, sans-serif;
 
+}
+
+table {
+  display: inline-block;
+}
+
+td,th {
+  text-align: right;
+  padding: 5px;
 }
 
 input,select {
@@ -35,6 +44,10 @@ body, a, a:visited, a:active {
 
 body {
   padding: 10px;
+}
+
+page {
+  display: none;
 }
 
 .next-button {
