@@ -11,7 +11,7 @@
   <ul>
     <li id="player-list"></li>
   </ul>
-  <div><a href="#" id="add-more-player">プレイヤーを追加</a></div>
+  <div><a href="#" id="add-more-player" class="action-button">プレイヤーを追加</a></div>
   <div>
       <label for="wolves">人狼の人数</label>
       <a href="#" class="change-wolves-num" data-num="-1">◀</a>
@@ -22,7 +22,7 @@
   <section>
     <ul id="player-names"></ul>
   </section>
-  <a href="#" id="to-config-wordpair" class="next-button">ワード登録へ</a>
+  <a href="#" id="to-config-wordpair" class="next-button">次へ</a>
 </div>
 <div id="config-wordpair" class="page">
   <div>ゲームマスター（GM）を一人選んでください（GMは試合には参加できません）</div>
@@ -34,12 +34,12 @@
     <li><label>狼ワード<input type="text" id="wolfWord" value="みかん" /></label></li>
   </ul>
   </div>
-  <a href="#" id="to-tell-words" class="next-button">開始</a>
+  <a href="#" id="to-tell-words" class="next-button">次へ</a>
 </div>
 
 <div id="tell-words" class="page">
   <span id="player-name-to-tell"></span>さんにワードをお知らせします。
-  あなたのワードは<div id="word-placeholder"><a href="#" id="open-word">????????</a></div><div id="the-word"></div>です。
+  あなたのワードは<div id="word-placeholder"><a href="#" id="open-word">？？？</a><span id="the-word"></span></div>です。
   <div>
     <a href="#" id="accept-word" class="next-button">確認しました</a>
   </div>
@@ -47,11 +47,12 @@
 <div id="playing" class="page">
 議論を行ってください
 <div id="timer-wrapper">
-  <span id="seconds">180</span>
-  <a href="#" id="add-30-seconds">議論を30秒延長する</a>
+  <div id="seconds">180</div>
+
+  <a href="#" id="add-30-seconds" class="action-button">議論を30秒延長する</a>
 </div>
 
-<a href="#" id="finish-discussion">議論を終了する</a>
+<a href="#" id="finish-discussion" class="next-button">議論を終了する</a>
 </div>
 <div id="vote" class="page">
   <span id="voter-name"></span>さん、投票を行ってください
@@ -62,25 +63,25 @@
 <div id="result-no-banish" class="page">
 同票により、誰も追放されませんでした。
 人狼の勝利です。
-<a href="#" class="to-result">結果を表示</a>
+<a href="#" class="to-result next-button">結果を表示</a>
 </div>
 <div id="result-villager-banished" class="page">
 追放された<span class="banished-person-name"></span>さんは村人でした。
 人狼の勝利です。
-<a href="#" class="to-result">結果を表示</a>
+<a href="#" class="to-result next-button">結果を表示</a>
 </div>
 
 
 <div id="result-wolf-banished" class="page">
 追放された<span class="banished-person-name"></span>さんは人狼でした。
 <span class="banished-person-name"></span>さんは、村ワードを当てることで逆転勝利ができます。
-<a href="#" id="finally-wolves-win">逆転勝利に成功</a>
-<a href="#" id="finally-wolves-lose">逆転勝利に失敗</a>
+<a href="#" id="finally-wolves-win" class="next-button">逆転勝利に成功</a>
+<a href="#" id="finally-wolves-lose" class="next-button">逆転勝利に失敗</a>
 
 </div>
 
 <div id="result" class="page">
-  <a href="#" id="next-game">次の村へ</a>
+  <a href="#" id="next-game" class="next-button">次の村へ</a>
 </div>
 <div id="help" class="page">
   <table>
@@ -169,11 +170,12 @@ function prepareVote() {
   var $candidates = $('#select-candidate').empty();
   for ( var i = 0; i < voter.candidates.length; i++ ) {
     var candidate = voter.candidates[i];
-    $('<a />')
+    $('<li />')
       .attr('href', '#')
       .attr('data-candidate-id', candidate.id)
       .text(candidate.name)
       .addClass('vote-to')
+      .addClass('next-button')
       .appendTo($candidates)
     ;
   }
@@ -182,6 +184,10 @@ function prepareVote() {
 
 $(document).on('click', '.vote-to', function () {
   var candidateId = $(this).attr('data-candidate-id');
+  var candidateName = $(this).text();
+  if ( !window.confirm(candidateName + "さんに投票します。よろしいですか？") ) {
+    return false;
+  };
   village.vote(voter.voter.id, candidateId);
   if ( !prepareVote() ) {
     var res = village.judge();
@@ -214,7 +220,7 @@ function showPage (page) {
 }
 
 function addPlayer(id,name) {
-  $('<li class="player-holder"><input type="text" class="player-name" data-player-id="' + id + '" value="' + name +'"/><a href="#" class="delete-player" data-player-id="' + id + '" style="display: none;">削除</a></li>').appendTo('#player-list');
+  $('<li class="player-holder"><input type="text" class="player-name" data-player-id="' + id + '" value="' + name +'"/><a href="#" class="delete-player action-button" data-player-id="' + id + '" style="display: none;">削除</a></li>').appendTo('#player-list');
   return false;
 }
 
@@ -273,7 +279,7 @@ function setNextWord () {
   var player = village.tellWord();
   if ( !player ) return false;
 
-  $('#word-placeholder').show();
+  $('#open-word').show();
   $('#player-name-to-tell').text(player.name);
   $('#the-word').text( player.word ).hide();
   $('#accept-word').hide();
@@ -283,7 +289,7 @@ function setNextWord () {
 $('#open-word').click( openWord );
 
 function openWord () {
-  $('#word-placeholder').hide();
+  $('#open-word').hide();
   $('#the-word').show();
   $('#accept-word').show();
   return false;

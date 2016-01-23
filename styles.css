@@ -1,14 +1,29 @@
-html,body,div,h1,h2,h3,h4,h5,h6,section {
+html,body,div,h1,h2,h3,h4,h5,h6,input,header,footer,section {
   border: 0;
   margin: 0;
   padding: 0;
+}
+
+body,div,h1,h2,h3,header,footer,section {
   background-color: #200606;
   color: #fed;
   text-align: center;
 }
+
+input,select {
+  background-color: #402626;
+  color: #fff;
+  border: 1px solid #642;
+  text-align: center;
+  margin: 3px;
+  padding: 3px;
+  font-size: 1.1em;
+}
+
 ul,ol {
   list-style: none;
 }
+
 body, a, a:visited, a:active {
   color: #f84;
   text-decoration: none;
@@ -21,9 +36,50 @@ body {
 .next-button {
   display: block;
   background: #654;
-  margin: 0 auto;
+  margin: 10px auto;
   width: 80%;
   text-align: center;
-  text-shadow: 3px 3px 3px 3px #0f0;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.action-button {
+  background: #842;
+  padding: 2px 8px;
+  margin: 5px;
+  text-align: right;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#wolves {
+  width: 30px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: #f84;
+  font-size: 1.3em;
+  text-align: right;
+  background: none;
+}
+
+#seconds {
+  border: 0;
+  color: #f84;
+  font-size: 1.3em;
+}
+
+#open-word {
+  background: #842;
+  padding: 2px 8px;
+  margin: 5px;
+  text-align: right;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#the-word {
+  font-size: 1.2em;
+  border-bottom: 1px solid #fff;
+  color: #fff;
 }
