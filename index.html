@@ -3,17 +3,40 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<div id="config" class="page">
+<div id="config-village" class="page">
+  <section>
+  <h1>参加者</h1>
+  <ul>
+    <li id="player-list"></li>
+  </ul>
+  <div><a href="#" id="add-more-player">プレイヤーを追加</a></div>
+  <div>
+      <label for="wolves">人狼の人数</label>
+      <a href="#" class="change-wolves-num" data-num="-1">◀</a>
+      <input type="number" id="wolves" readonly="readonly" value="1" />
+      <a href="#" class="change-wolves-num" data-num="+1">▶</a>
+  </div>
+  </section>
+  <section>
+    <ul id="player-names"></ul>
+  </section>
+  <a href="#" id="to-config-wordpair">ワード登録へ</a>
+</div>
+<div id="config-wordpair" class="page">
+  <div>ゲームマスター（GM）を一人選んでください（GMは試合には参加できません）</div>
+  <div><select id="game-master"></select></div>
+  <div>GMは村ワードと狼ワードを考え、入力してください。
+組み合わせがわかりやすすぎるもの（例；珈琲と紅茶）や、関連性が薄すぎるもの（例；珈琲と富士山）は避け、接戦となるようなワードの組み合わせを考えましょう。
   <ul>
     <li><label>村ワード<input type="text" id="villagerWord" value="リンゴ" /></label></li>
     <li><label>狼ワード<input type="text" id="wolfWord" value="みかん" /></label></li>
-    <li><label>村人の人数<input type="number" id="villagers" value="3" /></label></li>
-    <li><label>人狼の人数<input type="number" id="wolves" value="1" /></label></li>
   </ul>
-  <a href="#" id="start">開始</a>
+  </div>
+  <a href="#" id="to-tell-words">開始</a>
 </div>
-<div id="game" class="page">
-  プレイヤー<span id="player-number"></span>さんにワードをお知らせします。
+
+<div id="tell-words" class="page">
+  <span id="player-name-to-tell"></span>さんにワードをお知らせします。
   あなたのワードは<span id="word-placeholder"><a href="#" id="open-word">????????</a></span><span id="the-word"></span>です。
   <div>
     <a href="#" id="accept-word">確認しました</a>
@@ -21,40 +44,158 @@
 </div>
 <div id="playing" class="page">
 議論を行ってください
+<div id="timer-wrapper">
+  <span id="seconds">180</span>
+  <a href="#" id="add-30-seconds">議論を30秒延長する</a>
+</div>
+
 <a href="#" id="finish-discussion">議論を終了する</a>
 </div>
+<div id="vote" class="page">
+  <span id="voter-name"></span>さん、投票を行ってください
+  <ul id="select-candidate">
+  </ul>
+</div>
+
+<div id="result-no-banish" class="page">
+同票により、誰も追放されませんでした。
+人狼の勝利です。
+<a href="#" class="to-result">結果を表示</a>
+</div>
+<div id="result-villager-banished" class="page">
+追放された<span class="banished-person-name"></span>さんは村人でした。
+人狼の勝利です。
+<a href="#" class="to-result">結果を表示</a>
+</div>
+
+
+<div id="result-wolf-banished" class="page">
+追放された<span class="banished-person-name"></span>さんは人狼でした。
+<span class="banished-person-name"></span>さんは、村ワードを当てることで逆転勝利ができます。
+<a href="#" id="finally-wolves-win">逆転勝利に成功</a>
+<a href="#" id="finally-wolves-lose">逆転勝利に失敗</a>
+
+</div>
+
 <div id="result" class="page">
-  <ol>
-    <li>追放するプレイヤーを投票で決めてください。
-      <ul><li>トップが同票となった場合、追放失敗となり人狼の勝利となります</li></ul>
-    </li>
-    <li>追放されるプレイヤーは自分のワードを公開します。
-    <li>同じワードを持つプレイヤーの人数を確認し
-      <ul>
-        <li>多数派ならば人狼の勝利です。</li>
-        <li>少数派（人狼）が追放される場合、市民側のワードを当てることで逆転勝利となります。</li>
-      </ul>
-    </li>
-  </ol>
-  <div>
-    <a href="#" id="show-results">全員の正体を表示する</a>
-    <ul id="result-list"></ul>
-  </div>
-  <div>
-    <a href="#" id="next-game">次の問題へ</a>
-  </div>
+  <a href="#" id="next-game">次の村へ</a>
+</div>
+<div id="help" class="page">
+  <table>
+    <tr>
+      <td></td>
+      <th>追放なし  </th>
+      <th>村人を追放</th>
+      <th>人狼を追放</th>
+      <th>人狼の逆転</th>
+    </tr>
+    <tr>
+      <th>村人チーム</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>+2</td>
+      <td>-2</td>
+    </tr>
+    <tr>
+      <th>GM</th>
+      <td>+1</td>
+      <td>+1</td>
+      <td>-3</td>
+      <td>-3</td>
+    </tr>
+    <tr>
+      <th>人狼チーム</th>
+      <td colspan="4">村人チームの点数x村人の人数＋GMの点数を人狼の人数で割ったもの</td>
+    </tr>
+  </table>
 </div>
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="game.js"></script>
 <script>
 
-var players;
-var playerId;
 
-$('#start').click( prepareWords );
+var playerId;
+var players = new Players();
+players.load();
+for ( var id in players.member ) {
+  addPlayer(id,players.member[id].name);
+}
+var numPlayers = players.count();
+if ( 4 < numPlayers ) {
+  $('.delete-player').show();
+}
+var village;
+window.onunload = function () {
+  players.save();
+};
+
+$('#to-config-wordpair').click( function () {
+  var $select = $('#game-master');
+  $select.empty();
+  for ( var id in players.member ) {
+    var player = players.member[id];
+    $('<option />').text( player.name ).addClass('gm-select-option').attr('data-player-id', id ).appendTo($select);
+  }
+  showPage('config-wordpair');
+});
+
+$('#to-tell-words').click( function () {
+  var masterId = $('.gm-select-option:selected').attr('data-player-id');
+  village = new Village(
+    players,
+    parseInt($('#wolves').val()),
+    $('#villagerWord').val(),
+    $('#wolfWord').val(),
+    masterId
+  );
+  setNextWord();
+  showPage('tell-words');
+});
+
 $('#accept-word').click( acceptWord );
+
 $('#finish-discussion').click( function () {
-  showPage('result');
+  prepareVote();
+  showPage('vote');
+});
+
+var voter;
+function prepareVote() {
+  voter = village.prepareVote();
+  if ( !voter ) return false;
+  $('#voter-name').text(voter.voter.name);
+  var $candidates = $('#select-candidate').empty();
+  for ( var i = 0; i < voter.candidates.length; i++ ) {
+    var candidate = voter.candidates[i];
+    $('<a />')
+      .attr('href', '#')
+      .attr('data-candidate-id', candidate.id)
+      .text(candidate.name)
+      .addClass('vote-to')
+      .appendTo($candidates)
+    ;
+  }
+  return true;
+}
+
+$(document).on('click', '.vote-to', function () {
+  var candidateId = $(this).attr('data-candidate-id');
+  village.vote(voter.voter.id, candidateId);
+  if ( !prepareVote() ) {
+    var res = village.judge();
+    if ( !res ) {
+      showPage('result-no-banish');
+    }
+    else {
+      $('.banished-person-name').text(res.name);
+      if ( res.role === 'villager' ) {
+        showPage('result-villager-banished');
+      }
+      else {
+        showPage('result-wolf-banished');
+      }
+    }
+  }
 });
 
 $('#show-results').click( function () {
@@ -62,41 +203,83 @@ $('#show-results').click( function () {
 });
 
 $('#next-game').click(function () {
-  showPage('config');
+  showPage('config-village');
 });
 
 function showPage (page) {
   $('.page').hide();
   $('#' + page).show();
 }
-showPage('config');
 
-function prepareWords () {
-  players = makePlayers(
-    $('#villagerWord').val(),
-    $('#wolfWord').val(),
-    $('#villagers').val(),
-    $('#wolves').val()
-  );
-  $('#result-list').empty();
-  for ( var i=0;i<players.length;i++ ) {
-    $('<li>').text('プレイヤー' + (i+1) + ': ' + players[i]).appendTo($('#result-list'));
-  }
-  playerId = 0;
-  setNextWord();
-  showPage('game');
-  $('#result-list').hide();
+function addPlayer(id,name) {
+  $('<li class="player-holder"><input type="text" class="player-name" data-player-id="' + id + '" value="' + name +'"/><a href="#" class="delete-player" data-player-id="' + id + '" style="display: none;">削除</a></li>').appendTo('#player-list');
   return false;
 }
 
+$('#add-more-player').on('click', function () {
+  var id = players.maxId() + 1;
+  var name = 'プレイヤー' + (id+1);
+  addPlayer(id, name);
+  players.add(name,id);
+  $('.delete-player').show();
+});
+
+$(document).on('change', '.player-name', function () {
+  var id = $(this).attr('data-player-id');
+  players.member[id].name = $(this).val();
+});
+
+$(document).on('click', '.delete-player', function () {
+  var id = $(this).attr('data-player-id');
+  players.remove(id);
+  $(this).parents('li.player-holder').remove();
+  if ( $('.player-holder').length <= 4 ) {
+    $('.delete-player').hide();
+  }
+
+  var current = parseInt($('#wolves').val());
+  if ( current <= 0 ) {
+    current = 1;
+  }
+  var numPlayers = $('.player-name').length;
+  var max_wolves = parseInt((numPlayers - 1)/2);
+  if ( max_wolves < current ) {
+    current = max_wolves;
+  }
+  $('#wolves').val(current);
+
+});
+
+$('.change-wolves-num').click(function () {
+  var current = parseInt($('#wolves').val());
+  var change = parseInt($(this).attr('data-num'));
+  current += change;
+  if ( current <= 0 ) {
+    current = 1;
+  }
+  var players = $('.player-name').length;
+  var max_wolves = parseInt((players - 1)/2);
+  if ( max_wolves < current ) {
+    current = max_wolves;
+  }
+
+  $('#wolves').val(current);
+  return false;
+});
+
 function setNextWord () {
+  var player = village.tellWord();
+  if ( !player ) return false;
+
   $('#word-placeholder').show();
-  $('#player-number').text(playerId+1);
-  $('#the-word').text( players[playerId++] ).hide();
+  $('#player-name-to-tell').text(player.name);
+  $('#the-word').text( player.word ).hide();
   $('#accept-word').hide();
+  return true;
 }
 
 $('#open-word').click( openWord );
+
 function openWord () {
   $('#word-placeholder').hide();
   $('#the-word').show();
@@ -105,14 +288,47 @@ function openWord () {
 }
 
 function acceptWord () {
-  if ( playerId < players.length ) {
-    setNextWord();
-  }
-  else {
+  if ( !setNextWord() ) {
+    startTimer();
     showPage('playing');
   }
   return false;
 }
+
+$('#finally-wolves-win').click( function () {
+  village.wolfRevenge(true);
+  showPage('result');
+});
+
+$('#finally-wolves-lose').click( function () {
+  village.wolfRevenge(false);
+  showPage('result');
+});
+
+$('.to-result').click( function () {
+  showPage('result');
+});
+
+showPage('config-village');
+
+var targetTime;
+function startTimer(seconds) {
+  var now = (new Date()).getTime();
+  targetTime = now + (seconds || 300000);
+  $('#seconds').text( targetTime - now );
+}
+
+$('#add-30-seconds').click(function () {
+  targetTime += 30000;
+});
+
+setInterval(function () {
+  if ( !targetTime ) return;
+  var now = (new Date()).getTime();
+  if ( targetTime > now ) {
+    $('#seconds').text( parseInt((targetTime - now)/1000) );
+  }
+},100);
 
 </script>
 </body>
