@@ -55,6 +55,8 @@ Players.prototype.load = function () {
 
 function Village (players, numWolves, villagerWord, wolfWord, gameMasterId) {
   var numPlayers = players.count();
+  this.villagerWord = villagerWord;
+  this.wolfWord = wolfWord;
   this.players = players;
   if ( gameMasterId ) {
     numPlayers--;
@@ -145,10 +147,12 @@ Village.prototype.judge = function () {
     }
   }
   if ( numWinners > 1 ) {
+    this.result = 'noBanish';
     this.applyScore(-1,1);
     return 0;
   }
   else if ( this.players.member[winner].role === 'villager' ) {
+    this.result = 'villagerBanished';
     this.applyScore(-1,1);
   }
   return this.players.member[winner];
@@ -156,9 +160,11 @@ Village.prototype.judge = function () {
 
 Village.prototype.wolfRevenge = function (success) {
   if ( success ) {
+    this.result = 'wolfRevenge';
     this.applyScore(-2,-3);
   }
   else {
+    this.result = 'wolfBanished'
     this.applyScore(2,-3);
   }
 };

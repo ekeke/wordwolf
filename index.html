@@ -86,12 +86,12 @@
   <h1>投票結果</h1>
   <table id="js-vote-result">
   </table>
-  <h1>ポイント</h1>
+  <h1>ポイント <a href="#" id="to-point-help">?</a></h1>
   <table id="js-point-result">
   </table>
   <a href="#" id="next-game" class="next-button">次の村へ</a>
 </div>
-<div id="help" class="page">
+<div id="point-help" class="page">
   <table>
     <tr>
       <td></td>
@@ -116,14 +116,22 @@
     </tr>
     <tr>
       <th>人狼チーム</th>
-      <td colspan="4">村人チームの点数x村人の人数＋GMの点数を人狼の人数で割ったもの</td>
+      <td colspan="4">(村人チームの点数x村人の人数＋GMの点数)/人狼の人数</td>
     </tr>
   </table>
+  <a href="#" id="back-to-result" class="next-button">結果画面に戻る</a>
 </div>
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="game.js"></script>
 <script>
 
+$('#to-point-help').click( function () {
+  showPage('point-help');
+});
+
+$('#back-to-result').click( function () {
+  showPage('result');
+});
 
 var playerId;
 var players = new Players();
@@ -397,6 +405,15 @@ $('#reset-players').click( function () {
     }
   }
 });
+
+
+
+// Communicate with server
+
+function postWordPair (villagerWord, wolfWord) {
+
+}
+
 </script>
 </body>
 </html>
