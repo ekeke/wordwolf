@@ -81,19 +81,20 @@
 
 <div id="result-no-banish" class="page">
 同票により、誰も追放されませんでした。
-人狼の勝利です。
 <a href="#" class="to-result next-button">結果を表示</a>
 </div>
 <div id="result-villager-banished" class="page">
 追放された<span class="banished-person-name player-name"></span>さんは村人でした。
-人狼の勝利です。
 <a href="#" class="to-result next-button">結果を表示</a>
 </div>
 
 
 <div id="result-wolf-banished" class="page">
 追放された<span class="banished-person-name player-name"></span>さんは人狼でした。
-<span class="banished-person-name"></span>さんは、村ワードを当てることで逆転勝利ができます。
+<section>
+<span class="banished-person-name"></span>さんは、村ワードを当てることで逆転勝利ができます。推理した村ワードを発表し、GMは答え合わせを行ってください(複雑なワードの場合、多少の揺れは許容してくださいね)。
+</section>
+<h1>結果を入力</h1>
 <a href="#" id="finally-wolves-win" class="next-button">逆転勝利に成功</a>
 <a href="#" id="finally-wolves-lose" class="next-button">逆転勝利に失敗</a>
 
@@ -107,6 +108,43 @@
   <h1>ポイント <a href="#" id="to-point-help">?</a></h1>
   <table id="js-point-result">
   </table>
+  <h1>答え</h1>
+  <table>
+    <tr>
+      <th>村ワード</th>
+      <td id="answer-villager-word"></td>
+    </tr>
+    <tr>
+      <th>狼ワード</th>
+      <td id="answer-wolf-word"></td>
+    </tr>
+  </table>
+  <div id="post-form">
+    <div id="post-wordpair-wrapper">
+      <h4>面白さ</h4>
+      <input type="radio" name="estimate-fun" class="estimate fun" value="-1" id="fun-down" /><label for="fun-down">詰まらない</label>
+      <input type="radio" name="estimate-fun" class="estimate fun estimate-default" value="0" id="fun-keep" checked="checked" /><label for="fun-keep">ふつう</label>
+      <input type="radio" name="estimate-fun" class="estimate fun" value="1" id="fun-up" /><label for="fun-up">おもしろい</label>
+
+      <h4>難しさ</h4>
+      <input type="radio" name="estimate-difficulty" class="estimate difficulty" value="-1" id="difficulty-down" /><label for="difficulty-down">易しい</label>
+      <input type="radio" name="estimate-difficulty" class="estimate difficulty estimate-default" value="0" id="difficulty-keep" checked="checked" /><label for="difficulty-keep">ふつう</label>
+      <input type="radio" name="estimate-difficulty" class="estimate difficulty" value="1" id="difficulty-up" /><label for="difficulty-up">難しい</label>
+
+      <h3>対象年齢</h3>
+      <input type="radio" name="estimate-age" class="estimate age" value="-1" id="age-down" /><label for="age-down">こどもむけ</label>
+      <input type="radio" name="estimate-age" class="estimate age estimate-default" value="0" id="age-keep" checked="checked" /><label for="age-keep">ふつう</label>
+      <input type="radio" name="estimate-age" class="estimate age" value="1" id="age-up" /><label for="age-up">おとなむけ</label>
+      <div>
+      <a href="#" id="post-wordpair" class="action-button">この問題をword-wolf.comで共有/評価する</a>
+      </div>
+      個人名などの個人情報や公序良俗に反する表現の投稿を禁じます。
+    </div>
+    <div id="post-wordpair-thanks-wrapper">
+      <span id="post-wordpair-thanks">投稿/評価ありがとうございました!</span>
+    </div>
+  </div>
+
   <a href="#" id="next-game" class="next-button">次の村へ</a>
 </div>
 <div id="point-help" class="page">
@@ -288,6 +326,14 @@ function buildResult () {
     $row.appendTo($pointTable);
   }
 
+  $('#answer-villager-word').text(village.villagerWord);
+  $('#answer-wolf-word').text(village.wolfWord);
+
+  $('#post-wordpair-wrapper').show();
+  $('#post-wordpair-thanks-wrapper').hide();
+
+  $('.estimate').removeAttr('checked');
+  $('.estimate-default').prop('checked', 'checked');
 }
 
 function addPlayer(id,name) {
@@ -426,6 +472,25 @@ $('#to-config-village').click(function () {
   showPage('config-village');
 });
 showPage('how-to-play');
+
+// Communicate with server
+$('#post-wordpair').click(function () {
+  $('#post-wordpair-wrapper').hide();
+  $('#post-wordpair-thanks-wrapper').show();
+  $.ajax({
+    data: JSON.stringify({
+      ww: village.wolfWord,
+      vw: village.villagerWord,
+      result: village.result,
+      fun: $('.estimate.fun:checked').val(),
+      difficulty: $('.estimate.difficulty:checked').val(),
+      age: $('.estimate.age:checked').val(),
+    }),
+    method: 'POST',
+    url: 'wordpairs'
+  });
+
+});
 
 </script>
 </body>

@@ -107,3 +107,26 @@ page {
   font-weight: bold;
   color: #fff;
 }
+
+#post-wordpair-wrapper {
+  width: 80%;
+  border: 1px solid #f84;
+  display: inline-block;
+}
+
+input.estimate {
+  display: none;
+}
+
+input.estimate + label {
+  width: 100px;
+  background-color: #402626;
+  color: #ddd;
+}
+
+input.estimate:checked + label {
+  width: 100px;
+  background-color: #f84;
+  color: #fff;
+}
+
