@@ -5,6 +5,24 @@
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<div id="how-to-play" class="page">
+  <h1>word-wolf.com</h1>
+<h2>遊び方</h2>
+<p>ワードウルフは、村人陣営と狼陣営に分かれてお互いのキーワードを推理するパーティーゲームです。</p>
+
+<p>プレイヤーは、少数派の人狼チームと多数派の村人チームにランダムに分けられます。人狼チームの目的は生き残ること。村人チームの目的は、人狼を追放することです。ただし、各プレイヤーは自分がどちらの陣営に所属しているのかは知らされません。</p>
+
+<p>次に、各陣営にそれぞれ共通のキーワードが配られます。</p>
+
+<p>キーワードが配られたら、全員でそのキーワードについて会話（議論）をします。キーワードに関連する会話をしながら、自分が村人なのか人狼なのか、誰を追放するべきか推理をしていきます。</p>
+
+<p>議論が終了したら、投票を行い追放する相手を決定します。村人を追放してしまったり、最多得票者が複数出てしまった場合、追放失敗となり村人チームの負けとなります。</p>
+
+<p>人狼を追放することに成功しても油断は出来ません。人狼は追放された後に、村人のキーワードを的中することで逆転勝利ができます。会話の中で出たヒントから、村人陣営のキーワードを推理して答えてください。</p>
+
+<p>人狼が村人チームのキーワードを的中した場合、村人チームの負けとなります。的中できなかった場合、はじめて村人チームの勝利となります。</p>
+<a href="#" id="to-config-village" class="next-button">ゲームをはじめる</a>
+</div>
 <div id="config-village" class="page">
   <section>
   <h1>参加者</h1>
@@ -370,8 +388,6 @@ $('.to-result').click( function () {
   showPage('result');
 });
 
-showPage('config-village');
-
 var targetTime;
 function startTimer(seconds) {
   var now = (new Date()).getTime();
@@ -406,13 +422,10 @@ $('#reset-players').click( function () {
   }
 });
 
-
-
-// Communicate with server
-
-function postWordPair (villagerWord, wolfWord) {
-
-}
+$('#to-config-village').click(function () {
+  showPage('config-village');
+});
+showPage('how-to-play');
 
 </script>
 </body>
