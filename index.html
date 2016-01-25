@@ -124,11 +124,6 @@
   </table>
   <div id="post-form">
     <div id="post-wordpair-wrapper">
-      <h4>面白さ</h4>
-      <input type="radio" name="estimate-fun" class="estimate fun" value="-1" id="fun-down" /><label for="fun-down">詰まらない</label>
-      <input type="radio" name="estimate-fun" class="estimate fun estimate-default" value="0" id="fun-keep" checked="checked" /><label for="fun-keep">ふつう</label>
-      <input type="radio" name="estimate-fun" class="estimate fun" value="1" id="fun-up" /><label for="fun-up">おもしろい</label>
-
       <h4>難しさ</h4>
       <input type="radio" name="estimate-difficulty" class="estimate difficulty" value="-1" id="difficulty-down" /><label for="difficulty-down">易しい</label>
       <input type="radio" name="estimate-difficulty" class="estimate difficulty estimate-default" value="0" id="difficulty-keep" checked="checked" /><label for="difficulty-keep">ふつう</label>
@@ -485,7 +480,6 @@ $('#post-wordpair').click(function () {
       ww: village.wolfWord,
       vw: village.villagerWord,
       result: village.result,
-      fun: $('.estimate.fun:checked').val(),
       difficulty: $('.estimate.difficulty:checked').val(),
       age: $('.estimate.age:checked').val(),
     }),

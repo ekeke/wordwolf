@@ -22,7 +22,6 @@ var server = require('http').createServer(function (req,res) {
         var coll = db.collection('wordpairs');
         var amount = {};
         amount[ 'results.' + data.result] = 1;
-        amount[ 'estimates.fun' ] = parseInt(data.fun);
         amount[ 'estimates.age' ] = parseInt(data.age);
         amount[ 'estimates.difficulty' ] = parseInt(data.difficulty);
         coll.updateOne(
