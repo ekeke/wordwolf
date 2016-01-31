@@ -107,9 +107,9 @@
 
 <section id="banish" class="js-page" style="display: none">
   <h1>投票の時間です</h1>
-  ゲームマスターの掛け声にしたがって、プレイヤーは処刑したい人を指差してください。
+  ゲームマスターの掛け声にしたがって、プレイヤーは追放したい人を指差してください。
   投票が終わったら、ゲームマスターは追放された村人を確認し入力してください。
-  （最多票が同数の場合、処刑なしを選択してください。）
+  （最多票が同数の場合、追放なしを選択してください。）
   <ul id="banish-candidate">
 
     <!--  jsでこんなのが追加されます
@@ -319,7 +319,7 @@ function prepareBanish() {
   $('<li />')
     .attr('href', '#')
     .attr('data-candidate-id', -1)
-    .text('追放者なし')
+    .text('追放なし')
     .addClass('banish-villager')
     .addClass('next-button')
     .appendTo($candidates)
