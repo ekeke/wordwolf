@@ -1,36 +1,41 @@
 <html lang="ja">
 <head>
-<title>ワードウルフ.com</title>
-<meta name="keywords" content="ワードウルフ,人狼,パーティーゲーム" />
-<meta name="description" content="ワードウルフが遊べるサイトです。" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="styles.css" />
+  <title>ワードウルフ.com</title>
+  <meta name="keywords" content="ワードウルフ,人狼,パーティーゲーム" />
+  <meta name="description" content="ワードウルフが遊べるサイトです。" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<div id="how-to-play" class="page">
+
+
+<section id="how-to-play" class="js-page" style="display: none">
   <h1>word-wolf.com</h1>
-<h2>遊び方</h2>
-<p>ワードウルフは、村人陣営と狼陣営に分かれてお互いのキーワードを推理するパーティーゲームです。</p>
+  <h2>遊び方</h2>
+  <p>ワードウルフは、村人陣営と狼陣営に分かれてお互いのキーワードを推理するパーティーゲームです。</p>
+  <p>プレイヤーは、少数派の人狼チームと多数派の村人チームにランダムに分けられます。人狼チームの目的は生き残ること。村人チームの目的は、人狼を追放することです。ただし、各プレイヤーは自分がどちらの陣営に所属しているのかは知らされません。</p>
+  <p>次に、各陣営にそれぞれ共通のキーワードが配られます。</p>
+  <p>キーワードが配られたら、全員でそのキーワードについて会話（議論）をします。キーワードに関連する会話をしながら、自分が村人なのか人狼なのか、誰を追放するべきか推理をしていきます。</p>
+  <p>議論が終了したら、投票を行い追放する相手を決定します。村人を追放してしまったり、最多得票者が複数出てしまった場合、追放失敗となり村人チームの負けとなります。</p>
+  <p>人狼を追放することに成功しても油断は出来ません。人狼は追放された後に、村人のキーワードを的中することで逆転勝利ができます。会話の中で出たヒントから、村人陣営のキーワードを推理して答えてください。</p>
+  <p>人狼が村人チームのキーワードを的中した場合、村人チームの負けとなります。的中できなかった場合、はじめて村人チームの勝利となります。</p>
+  <a href="#" id="to-config-village" class="next-button">ゲームをはじめる</a>
+</section>
 
-<p>プレイヤーは、少数派の人狼チームと多数派の村人チームにランダムに分けられます。人狼チームの目的は生き残ること。村人チームの目的は、人狼を追放することです。ただし、各プレイヤーは自分がどちらの陣営に所属しているのかは知らされません。</p>
 
-<p>次に、各陣営にそれぞれ共通のキーワードが配られます。</p>
 
-<p>キーワードが配られたら、全員でそのキーワードについて会話（議論）をします。キーワードに関連する会話をしながら、自分が村人なのか人狼なのか、誰を追放するべきか推理をしていきます。</p>
+<section id="config-village" class="js-page" style="display: none">
+  <h1>参加者の設定</h1>
+  <ul id="player-list">
 
-<p>議論が終了したら、投票を行い追放する相手を決定します。村人を追放してしまったり、最多得票者が複数出てしまった場合、追放失敗となり村人チームの負けとなります。</p>
+    <!-- こんなのがjsで挿入されるらしいよ
+      <li class="player-holder">
+        <input type="text" class="js-player-name" data-player-id="2" value="えけけ"/>
+        <a href="#" class="delete-player action-button" data-player-id="2">削除</a>
+      </li>
+    -->
 
-<p>人狼を追放することに成功しても油断は出来ません。人狼は追放された後に、村人のキーワードを的中することで逆転勝利ができます。会話の中で出たヒントから、村人陣営のキーワードを推理して答えてください。</p>
-
-<p>人狼が村人チームのキーワードを的中した場合、村人チームの負けとなります。的中できなかった場合、はじめて村人チームの勝利となります。</p>
-<a href="#" id="to-config-village" class="next-button">ゲームをはじめる</a>
-</div>
-<div id="config-village" class="page">
-  <section>
-  <h1>参加者</h1>
-  <ul>
-    <li id="player-list"></li>
   </ul>
   <div><a href="#" id="add-more-player" class="action-button">プレイヤーを追加</a></div>
   <div><a href="#" id="reset-players" class="action-button">プレイヤーとスコアを初期化</a></div>
@@ -40,13 +45,13 @@
       <input type="number" id="wolves" readonly="readonly" value="1" />
       <a href="#" class="change-wolves-num" data-num="+1">▶</a>
   </div>
-  </section>
-  <section>
-    <ul id="player-names"></ul>
-  </section>
+
   <a href="#" id="to-config-wordpair" class="next-button">次へ</a>
-</div>
-<div id="config-wordpair" class="page">
+</section>
+
+
+<section id="config-wordpair" class="js-page" style="display: none">
+  <h1>ゲームマスターの設定</h1>
   <div>ゲームマスター（GM）を一人選んでください（GMは試合には参加できません）</div>
   <div><select id="game-master"></select></div>
   <div>GMは村ワードと狼ワードを考え、入力してください。
@@ -57,61 +62,79 @@
   </ul>
   </div>
   <a href="#" id="to-tell-words" class="next-button">次へ</a>
-</div>
+</section>
 
-<div id="tell-words" class="page">
+
+
+<section id="tell-words" class="js-page" style="display: none">
+  <h1>ワードの確認</h1>
   <span id="player-name-to-tell" class="player-name"></span>さんにワードをお知らせします。
   あなたのワードは<div id="word-placeholder"><a href="#" id="open-word">？？？</a><span id="the-word"></span></div>です。
   <div>
     <a href="#" id="accept-word" class="next-button">確認しました</a>
   </div>
-</div>
-<div id="playing" class="page">
-議論を行ってください
-<div id="timer-wrapper">
-  <div id="seconds">180</div>
+</section>
 
-  <a href="#" id="add-30-seconds" class="action-button">議論を30秒延長する</a>
-</div>
 
-<a href="#" id="finish-discussion" class="next-button">議論を終了する</a>
-</div>
-<div id="vote" class="page">
+<section id="playing" class="js-page" style="display: none">
+  <h1>議論の時間です</h1>
+  議論を行ってください
+  <div id="timer-wrapper">
+    <div id="seconds">180</div>
+    <a href="#" id="add-30-seconds" class="action-button">議論を30秒延長する</a>
+  </div>
+  <a href="#" id="finish-discussion" class="next-button">議論を終了する</a>
+</section>
+
+
+
+<section id="vote" class="js-page" style="display: none">
+  <h1>投票の時間です</h1>
   <span id="voter-name" class="player-name"></span>さん、投票を行ってください
   <ul id="select-candidate">
+
+    <!--  jsでこんなのが追加されます
+      <li href="#" data-candidate-id="2" class="vote-to next-button">プレイヤー名</li>
+    -->
   </ul>
-</div>
-
-<div id="result-no-banish" class="page">
-同票により、誰も追放されませんでした。
-<a href="#" class="to-result next-button">結果を表示</a>
-</div>
-<div id="result-villager-banished" class="page">
-追放された<span class="banished-person-name player-name"></span>さんは村人でした。
-<a href="#" class="to-result next-button">結果を表示</a>
-</div>
-
-
-<div id="result-wolf-banished" class="page">
-追放された<span class="banished-person-name player-name"></span>さんは人狼でした。
-<section>
-<span class="banished-person-name"></span>さんは、村ワードを当てることで逆転勝利ができます。推理した村ワードを発表し、GMは答え合わせを行ってください(複雑なワードの場合、多少の揺れは許容してくださいね)。
 </section>
-<h1>結果を入力</h1>
-<a href="#" id="finally-wolves-win" class="next-button">逆転勝利に成功</a>
-<a href="#" id="finally-wolves-lose" class="next-button">逆転勝利に失敗</a>
 
-</div>
 
-<div id="result" class="page">
+<section id="result-no-banish" class="js-page" style="display: none">
+  <h1>追放</h1>
+  同票により、誰も追放されませんでした。
+  <a href="#" class="to-result next-button">結果を表示</a>
+</section>
 
-  <h1>投票結果</h1>
+
+<section id="result-villager-banished" class="js-page" style="display: none">
+  <h1>追放</h1>
+  追放された<span class="banished-person-name player-name"></span>さんは村人でした。
+  <a href="#" class="to-result next-button">結果を表示</a>
+</section>
+
+
+<section id="result-wolf-banished" class="js-page" style="display: none">
+  <h1>追放</h1>
+  追放された<span class="banished-person-name player-name"></span>さんは人狼でした。
+  <section>
+  <span class="banished-person-name"></span>さんは、村ワードを当てることで逆転勝利ができます。推理した村ワードを発表し、GMは答え合わせを行ってください(複雑なワードの場合、多少の揺れは許容してくださいね)。
+  </section>
+  <h2>結果を入力</h2>
+  <a href="#" id="finally-wolves-win" class="next-button">逆転勝利に成功</a>
+  <a href="#" id="finally-wolves-lose" class="next-button">逆転勝利に失敗</a>
+</section>
+
+
+<section id="result" class="js-page" style="display: none">
+  <h1>結果</h1>
+  <h2>投票結果</h2>
   <table id="js-vote-result">
   </table>
-  <h1>ポイント <a href="#" id="to-point-help">?</a></h1>
+  <h2>ポイント <a href="#" id="to-point-help">?</a></h2>
   <table id="js-point-result">
   </table>
-  <h1>答え</h1>
+  <h2>ワードの答え</h2>
   <table>
     <tr>
       <th>村ワード</th>
@@ -124,6 +147,10 @@
   </table>
   <div id="post-form">
     <div id="post-wordpair-wrapper">
+      <h2>word-wolf.comに問題を投稿</h2>
+      <p>
+        word-wolf.comでは、おもしろいワード人狼の問題を収集しています。
+      </p>
       <h4>難しさ</h4>
       <input type="radio" name="estimate-difficulty" class="estimate difficulty" value="-1" id="difficulty-down" /><label for="difficulty-down">易しい</label>
       <input type="radio" name="estimate-difficulty" class="estimate difficulty estimate-default" value="0" id="difficulty-keep" checked="checked" /><label for="difficulty-keep">ふつう</label>
@@ -134,18 +161,20 @@
       <input type="radio" name="estimate-age" class="estimate age estimate-default" value="0" id="age-keep" checked="checked" /><label for="age-keep">ふつう</label>
       <input type="radio" name="estimate-age" class="estimate age" value="1" id="age-up" /><label for="age-up">おとなむけ</label>
       <div>
-      <a href="#" id="post-wordpair" class="action-button">この問題をword-wolf.comで共有/評価する</a>
+      <p class="attention">個人名などの個人情報や公序良俗に反する表現の投稿はご遠慮ください。</p>
+      <a href="#" id="post-wordpair" class="action-button">投稿する</a>
       </div>
-      個人名などの個人情報や公序良俗に反する表現の投稿を禁じます。
     </div>
     <div id="post-wordpair-thanks-wrapper">
-      <span id="post-wordpair-thanks">投稿/評価ありがとうございました!</span>
+      <span id="post-wordpair-thanks">投稿ありがとうございました!</span>
     </div>
   </div>
 
   <a href="#" id="next-game" class="next-button">次の村へ</a>
-</div>
-<div id="point-help" class="page">
+</section>
+
+
+<section id="point-help" class="js-page" style="display: none">
   <table>
     <tr>
       <td></td>
@@ -174,7 +203,9 @@
     </tr>
   </table>
   <a href="#" id="back-to-result" class="next-button">結果画面に戻る</a>
-</div>
+</section>
+
+
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="game.js"></script>
 <script>
@@ -285,7 +316,7 @@ $('#next-game').click(function () {
 });
 
 function showPage (page) {
-  $('.page').hide();
+  $('.js-page').hide();
   if ( page === 'result' ) {
     buildResult();
   }

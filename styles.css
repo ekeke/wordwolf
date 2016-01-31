@@ -5,13 +5,25 @@ html,body,div,h1,h2,h3,h4,h5,h6,input,header,footer,section,ol,ul,table,tr,td {
 }
 
 body,div,h1,h2,h3,header,footer,section {
-  background-color: #200606;
+  background-color: #322;
   color: #fed;
   text-align: center;
+  margin: 10px;
   font-family:'Lucida Grande',
  'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',
  Meiryo, メイリオ, sans-serif;
+}
 
+h1 {
+  border-bottom: 1px solid #888;
+}
+
+h2 {
+  font-size: 1.1em;
+}
+
+body {
+  padding: 20px;
 }
 
 table {
@@ -53,22 +65,53 @@ page {
 .next-button {
   display: block;
   background: #654;
-  margin: 10px auto;
+  padding: 6px;
+  margin: 20px auto;
   width: 80%;
   text-align: center;
   font-size: 1.4em;
-  border-radius: 5px;
   cursor: pointer;
+
+  background: -moz-linear-gradient(top, #fbd95e, #b7953d 50%,#be8000 50%,#cc8800);
+  background: -webkit-gradient(linear, left top, left bottom, from(#a98), color-stop(0.5,#a86), color-stop(0.5,#864), to(#a74));
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border: 1px solid #0099CC;
+  -moz-box-shadow: 1px 1px 1px rgba(000,000,000,0.3),inset 0px 0px 3px rgba(255,255,255,0.5);
+  -webkit-box-shadow: 1px 1px 1px rgba(000,000,000,0.3),inset 0px 0px 3px rgba(255,255,255,0.5);
+  text-shadow: 0px 0px 3px rgba(0,0,0,0.5);
+}
+
+a.next-button, a:visited.next-button, a:active.next-button {
+  color: #fff;
+  text-decoration: none;
 }
 
 .action-button {
+  display: block;
   background: #842;
-  padding: 2px 8px;
-  margin: 5px;
+  padding: 4px 8px;
+  max-width: 80%;
+  margin: 30px auto;
   font-size: 1.2em;
-  text-align: right;
-  border-radius: 5px;
+  text-align: center;
   cursor: pointer;
+
+  background: -moz-linear-gradient(top, #fbd95e, #b7953d 50%,#be8000 50%,#cc8800);
+  background: -webkit-gradient(linear, left top, left bottom, from(#806860), color-stop(0.5,#908070), color-stop(0.5,#654), to(#908880));
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border: 1px solid #0099CC;
+  -moz-box-shadow: 1px 1px 1px rgba(000,000,000,0.3),inset 0px 0px 3px rgba(255,255,255,0.5);
+  -webkit-box-shadow: 1px 1px 1px rgba(000,000,000,0.3),inset 0px 0px 3px rgba(255,255,255,0.5);
+  text-shadow: 0px 0px 3px rgba(0,0,0,0.5);
+}
+
+a.action-button, a:visited.action-button, a:active.action-button {
+  color: #fff;
+  text-decoration: none;
 }
 
 #wolves {
@@ -112,6 +155,11 @@ page {
   width: 80%;
   border: 1px solid #f84;
   display: inline-block;
+  padding: 10px;
+}
+
+.attention {
+  font-size: 0.8em;
 }
 
 input.estimate {
@@ -129,4 +177,3 @@ input.estimate:checked + label {
   background-color: #f84;
   color: #fff;
 }
-
