@@ -32,7 +32,7 @@
     <!-- こんなのがjsで挿入されるらしいよ
       <li class="player-holder">
         <input type="text" class="js-player-name" data-player-id="2" value="えけけ"/>
-        <a href="#" class="delete-player action-button" data-player-id="2">削除</a>
+        <a href="#" class="delete-player delete-button" data-player-id="2">削除</a>
       </li>
     -->
 
@@ -68,8 +68,12 @@
 
 <section id="tell-words" class="js-page" style="display: none">
   <h1>ワードの確認</h1>
-  <span id="player-name-to-tell" class="player-name"></span>さんにワードをお知らせします。
-  あなたのワードは<div id="word-placeholder"><a href="#" id="open-word">？？？</a><span id="the-word"></span></div>です。
+  <span id="player-name-to-tell" class="player-name"></span>さんにワードをお知らせします。<br />
+  他の人に見えないようにボタンを押してワードを確認してください。
+  <div>
+    <a href="#" id="open-word" class="action-button">ワードを確認する</a>
+    <span id="the-word"></span>
+  </div>
   <div>
     <a href="#" id="accept-word" class="next-button">確認しました</a>
   </div>
@@ -353,7 +357,7 @@ $(document).on('click', '.vote-to', function () {
 $(document).on('click', '.banish-villager', function () {
   var candidateId = $(this).attr('data-candidate-id');
   var candidateName = $(this).text();
-  $('.banished-person-name').text(res.name);
+  $('.banished-person-name').text(candidateName);
   var result = village.banish(parseInt(candidateId));
   if ( 'noBanish' === result ) {
     showPage('result-no-banish');
@@ -425,7 +429,7 @@ function buildResult () {
 }
 
 function addPlayer(id,name) {
-  $('<li class="player-holder"><input type="text" class="js-player-name" data-player-id="' + id + '" value="' + name +'"/><a href="#" class="delete-player action-button" data-player-id="' + id + '" style="display: none;">削除</a></li>').appendTo('#player-list');
+  $('<li class="player-holder"><input type="text" class="js-player-name" data-player-id="' + id + '" value="' + name +'"/><a href="#" class="delete-player delete-button" data-player-id="' + id + '" style="display: none;">削除</a></li>').appendTo('#player-list');
   return false;
 }
 

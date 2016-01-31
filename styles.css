@@ -131,15 +131,6 @@ a.action-button, a:visited.action-button, a:active.action-button {
   font-size: 1.3em;
 }
 
-#open-word {
-  background: #842;
-  padding: 2px 8px;
-  margin: 5px;
-  text-align: right;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 #the-word {
   font-size: 1.2em;
   border-bottom: 1px solid #fff;
