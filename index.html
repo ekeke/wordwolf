@@ -38,7 +38,6 @@
 
   </ul>
   <div><a href="#" id="add-more-player" class="action-button">プレイヤーを追加</a></div>
-  <div><a href="#" id="reset-players" class="action-button">プレイヤーとスコアを初期化</a></div>
   <div>
       <label for="wolves">人狼の人数</label>
       <a href="#" class="change-wolves-num" data-num="-1">◀</a>
@@ -47,6 +46,7 @@
   </div>
 
   <a href="#" id="to-config-wordpair" class="next-button">次へ</a>
+  <div><a href="#" id="reset-players" class="action">プレイヤーとスコアを初期化</a></div>
 </section>
 
 
@@ -60,6 +60,7 @@
     <li><label>村ワード<input type="text" id="villagerWord" value="リンゴ" /></label></li>
     <li><label>狼ワード<input type="text" id="wolfWord" value="みかん" /></label></li>
   </ul>
+  <a href="#" id="suggest-wordpair" class="action-button">wordwolf.comの過去問を参照</a>
   </div>
   <a href="#" id="to-tell-words" class="next-button">次へ</a>
 </section>
@@ -147,9 +148,13 @@
 
 <section id="result" class="js-page" style="display: none">
   <h1>結果</h1>
+  <div class="wolf-win">人狼（<span class="answer-wolf-word"></span>）の勝利です</div>
+  <div class="wolf-lose">村人（<span class="answer-villager-word"></span>）の勝利です</div>
+  <!--
   <h2>投票結果</h2>
   <table id="js-vote-result">
   </table>
+  -->
   <h2>ポイント <a href="#" id="to-point-help">?</a></h2>
   <table id="js-point-result">
   </table>
@@ -157,11 +162,11 @@
   <table>
     <tr>
       <th>村ワード</th>
-      <td id="answer-villager-word"></td>
+      <td class="answer-villager-word"></td>
     </tr>
     <tr>
       <th>狼ワード</th>
-      <td id="answer-wolf-word"></td>
+      <td class="answer-wolf-word"></td>
     </tr>
   </table>
   <div id="post-form">
@@ -181,7 +186,9 @@
       <input type="radio" name="estimate-age" class="estimate age" value="1" id="age-up" /><label for="age-up">おとなむけ</label>
       <div>
       <p class="attention">個人名などの個人情報や公序良俗に反する表現の投稿はご遠慮ください。</p>
-      <a href="#" id="post-wordpair" class="action-button">投稿する</a>
+      <p>今回の問題（<span class="answer-villager-word"></span>/<span class="answer-wolf-word"></span>）を
+        <a href="#" id="post-wordpair" class="action-button">投稿する</a>
+      </p>
       </div>
     </div>
     <div id="post-wordpair-thanks-wrapper">
@@ -387,6 +394,15 @@ function showPage (page) {
 }
 
 function buildResult () {
+  if ( village.result === 'wolfBanished' ) {
+    $('.wolf-lose').show();
+    $('.wolf-win').hide();
+  }
+  else {
+    $('.wolf-lose').hide();
+    $('.wolf-win').show();
+  }
+
   var $voteTable = $('#js-vote-result').empty();
   var $pointTable = $('#js-point-result').empty();
   for ( var id in village.voteMap ) {
@@ -418,8 +434,8 @@ function buildResult () {
     $row.appendTo($pointTable);
   }
 
-  $('#answer-villager-word').text(village.villagerWord);
-  $('#answer-wolf-word').text(village.wolfWord);
+  $('.answer-villager-word').text(village.villagerWord);
+  $('.answer-wolf-word').text(village.wolfWord);
 
   $('#post-wordpair-wrapper').show();
   $('#post-wordpair-thanks-wrapper').hide();
@@ -580,7 +596,21 @@ $('#post-wordpair').click(function () {
     method: 'POST',
     url: 'wordpairs'
   });
+});
 
+$('#suggest-wordpair').click(function () {
+  $('#villagerWord').val('');
+  $('#wolfWord').val('');
+  $.ajax({
+    url: 'wordpairs',
+    method: 'GET',
+    dataType: 'json',
+    success: function (res) {
+      $('#villagerWord').val(res.vw);
+      $('#wolfWord').val(res.ww);
+    }
+  });
+  return false;
 });
 
 </script>
