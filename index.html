@@ -88,13 +88,28 @@
 
 
 
-<section id="vote" class="js-page" style="display: none">
+<section id="vote-by-hand" class="js-page" style="display: none">
   <h1>投票の時間です</h1>
   <span id="voter-name" class="player-name"></span>さん、投票を行ってください
   <ul id="select-candidate">
 
     <!--  jsでこんなのが追加されます
       <li href="#" data-candidate-id="2" class="vote-to next-button">プレイヤー名</li>
+    -->
+  </ul>
+</section>
+
+
+
+<section id="banish" class="js-page" style="display: none">
+  <h1>投票の時間です</h1>
+  ゲームマスターの掛け声にしたがって、プレイヤーは処刑したい人を指差してください。
+  投票が終わったら、ゲームマスターは追放された村人を確認し入力してください。
+  （最多票が同数の場合、処刑なしを選択してください。）
+  <ul id="banish-candidate">
+
+    <!--  jsでこんなのが追加されます
+      <li href="#" data-candidate-id="2" class="banish-villager next-button">プレイヤー名</li>
     -->
   </ul>
 </section>
@@ -259,8 +274,9 @@ $('#to-tell-words').click( function () {
 $('#accept-word').click( acceptWord );
 
 $('#finish-discussion').click( function () {
-  prepareVote();
-  showPage('vote');
+//  prepareVote();
+  prepareBanish();
+  showPage('banish');
 });
 
 var voter;
@@ -283,6 +299,32 @@ function prepareVote() {
   return true;
 }
 
+function prepareBanish() {
+  var $candidates = $('#banish-candidate').empty();
+  for ( var i = 0; i < village.member.length; i++ ) {
+    var candidate = village.member[i];
+    $('<li />')
+      .attr('href', '#')
+      .attr('data-candidate-id', candidate.id)
+      .text(candidate.name)
+      .addClass('banish-villager')
+      .addClass('next-button')
+      .appendTo($candidates)
+    ;
+  }
+  $('<li />')
+    .attr('href', '#')
+    .attr('data-candidate-id', -1)
+    .text('追放者なし')
+    .addClass('banish-villager')
+    .addClass('next-button')
+    .appendTo($candidates)
+  ;
+
+  return true;
+}
+
+
 $(document).on('click', '.vote-to', function () {
   var candidateId = $(this).attr('data-candidate-id');
   var candidateName = $(this).text();
@@ -304,6 +346,23 @@ $(document).on('click', '.vote-to', function () {
         showPage('result-wolf-banished');
       }
     }
+  }
+});
+
+
+$(document).on('click', '.banish-villager', function () {
+  var candidateId = $(this).attr('data-candidate-id');
+  var candidateName = $(this).text();
+  $('.banished-person-name').text(res.name);
+  var result = village.banish(parseInt(candidateId));
+  if ( 'noBanish' === result ) {
+    showPage('result-no-banish');
+  }
+  else if ( 'villagerBanished' === result ) {
+    showPage('result-villager-banished');
+  }
+  else {
+    showPage('result-wolf-banished');
   }
 });
 

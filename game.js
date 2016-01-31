@@ -146,26 +146,57 @@ Village.prototype.judge = function () {
       numWinners++;
     }
   }
+
   if ( numWinners > 1 ) {
-    this.result = 'noBanish';
-    this.applyScore(-1,1);
+    this.setResult('noBanish');
     return 0;
   }
   else if ( this.players.member[winner].role === 'villager' ) {
-    this.result = 'villagerBanished';
-    this.applyScore(-1,1);
+    this.setResult('villagerBanished');
   }
   return this.players.member[winner];
 };
 
-Village.prototype.wolfRevenge = function (success) {
-  if ( success ) {
-    this.result = 'wolfRevenge';
-    this.applyScore(-2,-3);
+Village.prototype.banish = function (idx) {
+  if ( idx === -1 ) {
+    this.setResult('noBanish');
+    return 'noBanish';
+  }
+  var banished = this.players.member[idx];
+  if ( banished.role === 'villager' ) {
+    this.setResult('villagerBanished');
+    return 'villagerBanished';
   }
   else {
-    this.result = 'wolfBanished'
+    return;
+  }
+}
+
+Village.prototype.setResult = function (result) {
+  if ( result === 'noBanish' ) {
+    this.applyScore(-1,1);
+  }
+  else if ( result === 'villagerBanished' ) {
+    this.applyScore(-1,1);
+  }
+  else if ( result === 'wolfRevenge' ) {
+    this.applyScore(-2,-3);
+  }
+  else if ( result === 'wolfBanished' ) {
     this.applyScore(2,-3);
+  }
+  else {
+    throw('huh?');
+  }
+  this.result = result;
+};
+
+Village.prototype.wolfRevenge = function (success) {
+  if ( success ) {
+    this.setResult('wolfRevenge');
+  }
+  else {
+    this.setResult('wolfBanished');
   }
 };
 
