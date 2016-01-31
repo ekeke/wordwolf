@@ -15,6 +15,22 @@ var server = require('http').createServer(function (req,res) {
     res.writeHead(200, { 'Content-Type': file['type'] });
     res.end(file['content']);
   }
+  else if (req.url === '/wordpairs' && req.method === 'GET' ) {
+    MongoClient.connect(mongourl, function(err, db) {
+      var coll = db.collection('wordpairs');
+      coll.count(function(err,count) {
+        var skip = parseInt(count * Math.random());
+        var cursor = coll.find({});
+        cursor.skip(skip);
+        cursor.nextObject(function(err,item) {
+          var data = { ww: item.ww, vw: item.vw };
+          db.close();
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(data));
+        });
+      });
+    });
+  }
   else if (req.url === '/wordpairs' && req.method === 'POST' ) {
     req.on('data', function(chunk) {
       var data = JSON.parse(chunk.toString());
@@ -30,6 +46,8 @@ var server = require('http').createServer(function (req,res) {
           { upsert: true },
           function (err,r) {
             db.close();
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end('{"err":"'+err+'}');
           }
         );
       });
