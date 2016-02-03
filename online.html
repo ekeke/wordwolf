@@ -1,0 +1,200 @@
+<html lang="ja">
+<head>
+  <title>ワードウルフ.com</title>
+  <meta name="keywords" content="ワードウルフ,人狼,パーティーゲーム" />
+  <meta name="description" content="ワードウルフが遊べるサイトです。" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <link rel="stylesheet" href="online.css" />
+</head>
+<body>
+  <header class="page-header">
+   <div class="title">
+     word-wolf.com |
+     <h1 id="village-name"></h1>
+   </div>
+   <div class="login">ようこそ<span class="js-my-name"></span>さん</div>
+  </header>
+  <div id="container">
+    <div id="lobby-wrapper">
+      <div class="menu-wrapper">
+        <div>
+          名前を変更：<input type="text" class="js-set-name-input"  /><button class="js-set-name">変更</button>
+        </div>
+        <a href="#" id="create-village">村を建てる</a>
+        <h2>村一覧</h2>
+        <ul id="village-list"></ul>
+      </div>
+      <div class="timeline-wrapper">
+        <div class="input-wrapper">
+          <input type="text" class="js-chat-input chat-input" />
+          <button class="js-chat-enter">発言</button>
+        </div>
+        <div id="lobby-timeline" class="timeline-box"></div>
+      </div>
+    </div>
+    <div id="village-wrapper">
+      <div class="menu-wrapper">
+        <div class="js-village-screen js-village-screen-prebuild">
+          村の設定を行います。
+          <div><label>村の名前 <input type="text" id="setting-village-name" /></label></div>
+          <div><label>議論時間 <input type="number" id="setting-discussion-minutes" /> 分</label></div>
+          <div class="js-for-owner"><a href="#" class="js-build-village">公開する</a></div>
+        </div>
+        <div class="js-village-screen js-village-screen-waiting">
+          メンバーが集まるのを待っています
+          <ul id="member-list"></ul>
+          <div class="js-for-owner"><a href="#" class="js-start">開始</a></div>
+          <a href="#" class="js-leave-village">退出</a>
+        </div>
+        <div class="js-village-screen js-village-screen-intro">
+          <div class="js-for-player">
+            現在ゲームマスターがワードを考えています。しばらくお待ち下さい・・・
+          </div>
+          <div class="js-for-master">
+            あなたはゲームマスターに選ばれました。狼ワードと村ワードを考えてください。
+            <input type="text" id="wolf-word-input" />
+            <input type="text" id="village-word-input" />
+            <a href="#" id="commit-wordpair">決定</a>
+          </div>
+        </div>
+        <div class="js-village-screen js-village-screen-discussing">
+          <div class="js-for-player">
+            あなたのワードは<span class="js-the-word"></span>です。議論を行ってください
+            <span class="js-timeout timeout" style="display: none;">888</span>
+          </div>
+          <div class="js-for-master">
+            ゲームマスターはゲームには参加できません＞＜
+          </div>
+        </div>
+        <div class="js-village-screen js-village-screen-voting">
+          <h2>投票</h2>
+          <span class="js-timeout timeout" style="display: none;">888</span>
+          <div class="js-for-player">
+            <ul class="js-user-list-for-vote"></ul>
+            <div class="js-voted"><span class="js-voted-name"></span>さんに投票しました</div>
+          </div>
+          <div class="js-for-master">プレイヤーの投票時間です</div>
+        </div>
+        <div class="js-village-screen js-village-screen-revenge">
+          <div class="js-for-role js-for-role-villager">
+            追放された<span class="js-banished-name"></span>さんは人狼でした。逆転が起きないよう祈りましょう。
+          </div>
+          <div class="js-for-role js-for-role-master">
+            追放された<span class="js-banished-name"></span>さんは狼でした。
+            ゲームマスターは<span class="js-banished-name"></span>さんの村ワードの予想を聞いて、正解か判定してください。
+            <a href="#" class="js-judge-revenge js-revenge-success">成功</a>
+            <a href="#" class="js-judge-revenge js-revenge-fail">失敗</a>
+          </div>
+          <div class="js-for-role js-for-role-wolf">
+            あなたは村から追放されました。あなたの正体は人狼でした。逆転のため、村ワードの予想をしてゲームマスターに伝えてください。
+          </div>
+        </div>
+
+        <div class="js-village-screen js-village-screen-postmortem">
+          <span class="js-result js-result-win">勝利</span>
+          <span class="js-result js-result-lose">敗北</span>
+          村ワード<span class="js-villager-word"></span>
+          狼ワード<span class="js-wolf-word"></span>
+            <span class="js-result js-result-role-wolf">あなたは人狼でした。</span>
+            <span class="js-result js-result-role-villager">あなたは村人でした。</span>
+          <div>
+            <span class="js-result js-result-wolfBanished">人狼は追放されました。村人の勝利です。</span>
+            <span class="js-result js-result-noBanish">誰も追放されませんでした。人狼の勝利です。</span>
+            <span class="js-result js-result-wolfRevenge">人狼が村人ワードを看破しました。人狼の勝利です。</span>
+            <span class="js-result js-result-villagerBanished">村人が追放されました。人狼の勝利です。</span>
+          </div>
+        </div>
+        <ul id="member-list"></ul>
+      </div>
+      <div class="timeline-wrapper js-village-timeline-wrapper">
+        <div class="input-wrapper">
+          <input type="text" class="js-chat-input chat-input" />
+          <button class="js-chat-enter chat-enter">発言</button>
+        </div>
+        <div id="village-timeline" class="timeline-box"></div>
+      </div>
+    </div>
+  </div>
+  <ul id="plain-log"></ul>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="online-client.js"></script>
+  <script>
+    var client = new Client({
+      server: '/',
+      io: io
+    });
+
+    $('.js-chat-input').on('keydown', function (e) {
+      if ( e.keyCode === 13 ) {
+        client.send('say', { string: $(this).val() });
+        $(this).val('');
+      }
+      return true;
+    });
+
+    $('.js-chat-enter').on('click', function () {
+      client.send('say', { string: $('.js-chat-input').val() });
+      $('.js-chat-input').val('');
+      return false;
+    });
+
+    $('#create-village').on('click', function () {
+      client.createVillage();
+      return false;
+    });
+
+    $(document).on('click', '.js-join-village', function () {
+      var vid = $(this).attr('data-village-id');
+      client.joinVillage(vid);
+      return false;
+    });
+
+    $('.js-build-village').on('click', function () {
+      client.buildVillage({ name: $('#setting-village-name').val(), discussionMinutes: $('#setting-discussion-minutes').val() });
+      return false;
+    });
+
+    $('.js-leave-village').click( function () {
+      client.leaveVillage();
+      return false;
+    });
+
+    $('.js-start').on('click', function () {
+      client.start();
+      return false;
+    });
+
+    $('#commit-wordpair').click( function () {
+      var ww = $('#wolf-word-input').val();
+      var vw = $('#village-word-input').val();
+      if ( !ww.length || !vw.length ) {
+        return false;
+      }
+      client.commitWordpair(ww,vw);
+      return false;
+    });
+
+    $(document).on('click', '.js-vote', function () {
+      var id = $(this).attr('data-user-id');
+      client.vote(id);
+      $('.js-user-list-for-vote').hide();
+      $('.js-voted').show();
+      $('.js-voted-name').text( $(this).text() );
+      return false;
+    });
+
+    $(document).on('click', '.js-judge-revenge', function () {
+      client.judgeRevenge( $(this).is('.js-revenge-success') );
+      return false;
+    });
+
+    $('.js-set-name').on('click', function() {
+      var name = $('.js-set-name-input').val();
+      if ( name.length < 1 ) return false;
+      client.setName(name);
+    });
+  </script>
+</body>
+</html>
