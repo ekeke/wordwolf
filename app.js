@@ -1,10 +1,17 @@
 var MongoClient = require('mongodb').MongoClient;
+var WW = require('./game.js');
 var fs = require('fs');
+var socketio = require('socket.io');
+var http = require('http');
+var online = require('./online.js');
 
 var staticFiles = {
   '/': { content: fs.readFileSync('index.html'), type: 'text/html' },
+  '/online': { content: fs.readFileSync('online.html'), type: 'text/html' },
+  '/online-client.js': { content: fs.readFileSync('online-client.js'), type: 'text/javascript' },
   '/game.js': { content: fs.readFileSync('game.js'), type: 'text/javascript'},
-  '/styles.css': { content: fs.readFileSync('styles.css'), type: 'text/css'}
+  '/styles.css': { content: fs.readFileSync('styles.css'), type: 'text/css'},
+  '/online.css': { content: fs.readFileSync('online.css'), type: 'text/css'}
 };
 
 var mongourl = 'mongodb://localhost:27017/wordwolf';
@@ -60,3 +67,11 @@ var server = require('http').createServer(function (req,res) {
 });
 
 server.listen(4111);
+
+
+var io = socketio.listen( server );
+var lobby = new online.Lobby();
+io.sockets.on( 'connection', function( socket ) {
+  var user = new online.User({socket: socket});
+
+});

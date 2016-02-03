@@ -1,0 +1,160 @@
+body, div, html, ul, ol, h1, h2 {
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 480px) {
+h1 {
+  font-size: 1.2em;
+}
+
+h2 {
+  font-size: 1.05em;
+}
+
+.timeline-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.menu-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#container {
+  width: 100%;
+  overflow: hidden;
+  margin: 24px 0 0 0;
+}
+
+}
+
+@media screen and (min-width: 481px) {
+.timeline-wrapper {
+  float: left;
+  width: 50%;
+  max-width: 480px;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  height: 100%;
+}
+
+.menu-wrapper {
+  width: 40%;
+  max-width: 480px;
+  float: left;
+  overflow-x: hidden;
+  padding: 10px;
+  height: 100%;
+}
+
+#container {
+  max-width: 960px;
+  height: 100%;
+  overflow: hidden;
+  padding: 24px 3px 0 3px;
+  box-sizing: border-box;
+}
+
+}
+
+body {
+  font-family:'Lucida Grande',
+ 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',
+ Meiryo, メイリオ, sans-serif;
+}
+
+.timeline-box {
+  overflow: scroll;
+}
+
+#member-list li {
+  display: inline-block;
+  margin: 0 4px 3px 0;
+  padding: 4px;
+  border: 1px solid #aaa;
+  background: #efd;
+  box-shadow: 1px 1px 1px rgba(000,000,000,0.3),inset 0px 0px 3px rgba(255,255,255,0.5);
+  list-style: none;
+  border-radius: 6px;
+}
+
+.page-header {
+  background: #ddd;
+  height: 24px;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  box-sizing: border-box;
+  font-size: 0.8em;
+  border-bottom: 1px solid #fff;
+}
+
+.page-header h1 {
+  margin: 0;
+}
+
+.title {
+  position: absolute;
+  padding: 3px;
+  left: 0;
+  top: 0;
+}
+
+.login {
+  position: absolute;
+  padding: 3px;
+  right: 0;
+  top: 0;
+}
+
+
+body.lobby {
+  background: #f0fff8;
+}
+
+body.village {
+  background: #f0f8ff;
+}
+
+#village-name {
+  font-size: 1.0em;
+  display: inline-block;
+}
+
+.timeline-wrapper {
+  border: 0;
+  overflow: hidden;
+}
+
+.timeline-item {
+  border: 1px solid #888;
+  background: #fff;
+  color: #333;
+  margin: 0 4px 4px 4px;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+#lobby-timeline, #village-timeline {
+  height: 300px;
+}
+
+.input-wrapper {
+  width: 100%;
+  padding: 3px;
+}
+
+.chat-input {
+  width: 75%;
+}
+
+.chat-enter {
+  width: 20%;
+}
+
+.timeout {
+  font-size: 1.3em;
+}

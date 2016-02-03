@@ -224,6 +224,15 @@ function shuffle (array) {
   return array;
 }
 
-window.Players = Players;
-window.Village = Village;
+
+if ( 'undefined' !==  typeof window ) {
+  window.Players = Players;
+  window.Village = Village;
+}
+
+if ( 'undefined' !==  typeof module ) {
+  module.exports.Players = Players;
+  module.exports.Village = Village;
+}
+
 })();
