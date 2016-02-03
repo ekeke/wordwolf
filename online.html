@@ -53,18 +53,19 @@
           </div>
           <div class="js-for-master">
             あなたはゲームマスターに選ばれました。狼ワードと村ワードを考えてください。
-            <input type="text" id="wolf-word-input" />
-            <input type="text" id="village-word-input" />
+            <div><label>狼ワード <input type="text" id="wolf-word-input" /></label></div>
+            <div><label>村ワード <input type="text" id="village-word-input" /></label></div>
             <a href="#" id="commit-wordpair">決定</a>
           </div>
         </div>
         <div class="js-village-screen js-village-screen-discussing">
           <div class="js-for-player">
             あなたのワードは<span class="js-the-word"></span>です。議論を行ってください
-            <span class="js-timeout timeout" style="display: none;">888</span>
+            議論終了まで <span class="js-timeout timeout" style="display: none;">888</span> 秒
           </div>
           <div class="js-for-master">
             ゲームマスターはゲームには参加できません＞＜
+            議論終了まで <span class="js-timeout timeout" style="display: none;">888</span> 秒
           </div>
         </div>
         <div class="js-village-screen js-village-screen-voting">
