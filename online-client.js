@@ -71,10 +71,10 @@ Client.prototype.init = function (opts) {
       var user = data[i];
       var prefix = '';
       if ( parseInt(user.id) === parseInt(client.uid) ) {
-        prefix = '*';
+        //prefix = '*';
       }
       if ( user.isOwner ) {
-        prefix = '[RM]' + prefix;
+        prefix += '&#x1F3E0;';
         if ( parseInt( user.id ) === parseInt( client.uid ) ) {
           $('.js-for-owner').show();
         }
@@ -83,16 +83,17 @@ Client.prototype.init = function (opts) {
         }
       }
       if ( user.isMaster ) {
-        prefix = '[GM]' + prefix;
+        prefix += '&#128081;';
         if ( parseInt( user.id ) === parseInt( client.uid ) ) {
           $('.js-for-master').show();
           $('.js-for-player').hide();
         }
       }
-      var name = prefix + ':' + user.name;
+
+      var name = prefix + $('<span />').text(user.name).html(); // quick escape
       var $li = $('<li />')
         .attr('data-user-id', user.id)
-        .text(name)
+        .html(name)
         .appendTo($list);
     }
 
@@ -125,7 +126,9 @@ Client.prototype.init = function (opts) {
 
   socket.on('progress', function (data) {
     $('.js-village-screen').hide();
-    $('.js-village-screen-' + data.status).show();
+    setTimeout( function () {
+      $('.js-village-screen-' + data.status).fadeIn(300);
+    },10);
     client.status = data.status;
     if ( data.status === 'voting' ) {
       $('.js-user-list-for-vote').show();
@@ -180,6 +183,7 @@ Client.prototype.init = function (opts) {
   });
 
   socket.on('result', function (result) {
+    client.result = result;
     $('.js-result').hide();
     $('.js-result-' + result.result).show();
     $('.js-result-role-' + result.yourrole).show();
@@ -188,7 +192,8 @@ Client.prototype.init = function (opts) {
     if ( result.yourresult ) {
       $('.js-result-' + result.yourresult).show();
     }
-
+    var table = client.buildResultTable(result);
+    $('.js-result-table-wrapper').empty().append(table);
   });
 };
 
@@ -263,6 +268,41 @@ Client.prototype.showTimeout = function () {
 
 Client.prototype.setName = function (name) {
   this.socket.emit('setName', name);
+};
+
+Client.prototype.postWordpair = function (vw,ww) {
+  $.ajax({
+    data: JSON.stringify({
+      ww: this.result.ww,
+      vw: this.result.vw,
+      result: this.result.result,
+      difficulty: $('.estimate.difficulty:checked').val(),
+      age: $('.estimate.age:checked').val(),
+    }),
+    method: 'POST',
+    url: '/wordpairs'
+  });
+};
+
+Client.prototype.buildResultTable = function (result) {
+  var $table = $('<table />');
+  var roleTrans = {
+    wolf: '人狼',
+    master: 'GM',
+    villager: '村人'
+  };
+  var $row = $('<tr />');
+  $('<th />').text('名前').appendTo($row);
+  $('<th />').text('役職').appendTo($row);
+  $('<th />').text('投票先').appendTo($row);
+  $row.appendTo($table);
+  for ( var uid in result.roleMap ) {
+    var $row = $('<tr />').appendTo($table);
+    $('<td />').text( result.playerMap[uid] ).appendTo($row);
+    $('<td />').text( roleTrans[ result.roleMap[uid] ] ).appendTo($row);
+    $('<td />').text( result.playerMap[ result.voteMap[uid] ] ).appendTo($row);
+  }
+  return $table;
 };
 
 window.Client = Client;

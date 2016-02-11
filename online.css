@@ -3,7 +3,7 @@ body, div, html, ul, ol, h1, h2 {
   padding: 0;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 780px) {
 h1 {
   font-size: 1.2em;
 }
@@ -22,15 +22,31 @@ h2 {
   width: 100%;
 }
 
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 #container {
   width: 100%;
+  height: 100%;
+  max-width: 480px;
+  top: 0;
+  left: 0;
+  margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
   overflow: hidden;
-  margin: 24px 0 0 0;
+  font-size: 14px;
 }
 
 }
 
-@media screen and (min-width: 481px) {
+@media screen and (min-width: 781px) {
 .timeline-wrapper {
   float: left;
   width: 50%;
@@ -38,6 +54,8 @@ h2 {
   overflow-x: hidden;
   word-wrap: break-word;
   height: 100%;
+  padding: 24px 2px 0 2px;
+  background: #fff;
 }
 
 .menu-wrapper {
@@ -45,7 +63,7 @@ h2 {
   max-width: 480px;
   float: left;
   overflow-x: hidden;
-  padding: 10px;
+  padding: 24px 2px 0 2px;
   height: 100%;
 }
 
@@ -53,8 +71,9 @@ h2 {
   max-width: 960px;
   height: 100%;
   overflow: hidden;
-  padding: 24px 3px 0 3px;
+  padding: 0 3px 0 3px;
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 }

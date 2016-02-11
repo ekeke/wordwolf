@@ -361,10 +361,6 @@ Village.prototype.judgeRevenge = function (result) {
   }
 };
 
-Village.prototype.finishPostmortem = function () {
-  this.setStatus('waiting');
-};
-
 Village.prototype.roll = function () {
   // bring role (master/villager/wolf) to villagers randomly
   var roles = [];
@@ -399,8 +395,21 @@ Village.prototype.vote = function (user,to) {
 };
 
 Village.prototype.showResult = function (result) {
+  var playerMap = {};
   for ( var id in this.member ) {
-    var data = { result: result, yourrole: this.roleMap[id], roleMap: this.roleMap, voteMap: this.voteMap, ww: this.ww, vw: this.vw };
+    playerMap[id] = this.member[id].name;
+  }
+  for ( var id in this.member ) {
+    var data = {
+      result: result,
+      yourrole: this.roleMap[id],
+      roleMap: this.roleMap,
+      voteMap: this.voteMap,
+      ww: this.ww,
+      vw: this.vw,
+      playerMap: playerMap
+    };
+
     var user = this.member[id];
     if ( result === 'wolfBanished' ) {
       data.winby === 'villager';
@@ -429,7 +438,7 @@ Village.prototype.showResult = function (result) {
   var now = (new Date()).getTime();
   this.nextTimeout = now + 10000;
   this.timer = setTimeout(function () {
-    village.setStatus('waiting');
+    village.setStatus('postwordpair');
   }, 10000);
 };
 

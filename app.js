@@ -41,6 +41,11 @@ var server = require('http').createServer(function (req,res) {
   else if (req.url === '/wordpairs' && req.method === 'POST' ) {
     req.on('data', function(chunk) {
       var data = JSON.parse(chunk.toString());
+      if ( !data.ww || !data.ww.length || !data.vw || !data.vw.length || data.ww === data.vw ) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end('{"err","Invalid Request"}');
+        return;
+      }
       MongoClient.connect(mongourl, function(err, db) {
         var coll = db.collection('wordpairs');
         var amount = {};
