@@ -175,7 +175,7 @@ Lobby.prototype.joinToVillage = function (user,vid) {
 function Village (owner,opts) {
   this.init(opts);
   this.owner = owner;
-
+  this.watchers = {};
   // status: prebuild -> waiting -> intro -> discussing -> voting -> revenge -> postmortem -> waiting...
   this.name = 'village ' + this.id;
   this.numWolves = 1;
@@ -187,6 +187,9 @@ Village.prototype = Object.create(Room.prototype);
 
 Village.prototype.join = function (user) {
   Room.prototype.join.call(this, user);
+  if ( this.status !== 'waiting' ) {
+    this.watchers[user.id] = 1;
+  }
   this.sendMemberList();
   user.socket.emit('progress', {status: this.status});
 }
@@ -223,6 +226,10 @@ Village.prototype.count = function () {
   return members;
 };
 
+Village.prototype.canSpeak = function (user) {
+  return this.watchers[user.id] ? false : true;
+};
+
 Village.prototype.setStatus = function (status) {
   this.status = status;
   var data = { status: status };
@@ -256,6 +263,9 @@ Village.prototype.sendMemberList = function () {
     if ( this.status !== 'prebuild' && this.status !== 'waiting' && parseInt(id) === parseInt(this.masterId) ) {
       data.isMaster = true;
     }
+    if ( this.watchers[id] ) {
+      data.isWatcher = true;
+    }
     if ( this.status === 'revenge' || this.status === 'postmortem' ) {
       data.role = this.roleMap[id];
     }
@@ -268,6 +278,7 @@ Village.prototype.build = function (setting) {
   this.name = setting.name;
   this.discussionSeconds = parseFloat(setting.discussionMinutes) * 60;
   this.setStatus('waiting');
+  this.watchers = {};
   buildVillageList();
   lobby.broadcast('listVillage', villageList);
 }
