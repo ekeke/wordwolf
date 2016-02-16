@@ -238,7 +238,7 @@ Client.prototype.commitWordpair = function (ww,vw) {
 };
 
 Client.prototype.rebuild = function (opts) {
-  this.socket.emit('rebuildVillage',opts);
+  this.socket.emit('rebuildVillage');
 };
 
 Client.prototype.vote = function (id) {
