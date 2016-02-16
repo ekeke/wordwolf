@@ -69,10 +69,10 @@ User.prototype.init = function (opts) {
   });
 
   socket.on('rebuildVillage', function (opts) {
-    if ( user.currentRoom === lobby || user.currentRoom.master !== user || user.currentRoom.status !== 'prebuild' ) {
+    if ( user.currentRoom === lobby || user.currentRoom.masterId !== user || user.currentRoom.status !== 'prebuild' ) {
       return;
     }
-    user.currentRoom.build(opts);
+    user.currentRoom.startIntro(opts);
   });
 
 
