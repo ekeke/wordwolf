@@ -176,6 +176,7 @@ Lobby.prototype.joinToVillage = function (user,vid) {
   if ( user.currentRoom !== this ) return;
   var village = villages[parseInt(vid)];
   if ( !village ) return;
+  if ( village.status !== 'waiting' ) return;
   village.join(user);
   this.leave(user);
 }
