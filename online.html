@@ -56,6 +56,7 @@
             <div><label>村ワード <input type="text" id="village-word-input" /></label></div>
             <a href="#" class="js-suggest-wordpair">wordwolf.comの過去問を参照</a>
             <a href="#" id="commit-wordpair">決定</a>
+            <a href="#" id="rebuild">パス</a>
           </div>
         </div>
         <div class="js-village-screen js-village-screen-discussing">
@@ -209,6 +210,11 @@
         return false;
       }
       client.commitWordpair(ww,vw);
+      return false;
+    });
+
+    $('#rebuild').click( function () {
+      client.rebuild();
       return false;
     });
 

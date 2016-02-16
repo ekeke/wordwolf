@@ -68,6 +68,14 @@ User.prototype.init = function (opts) {
     user.currentRoom.build(opts);
   });
 
+  socket.on('rebuildVillage', function (opts) {
+    if ( user.currentRoom === lobby || user.currentRoom.master !== user || user.currentRoom.status !== 'prebuild' ) {
+      return;
+    }
+    user.currentRoom.build(opts);
+  });
+
+
   socket.on('leaveVillage', function () {
     if ( user.currentRoom === lobby || user.currentRoom.status !== 'waiting' ) {
       return;

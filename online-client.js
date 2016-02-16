@@ -237,6 +237,10 @@ Client.prototype.commitWordpair = function (ww,vw) {
   this.socket.emit('commitWordpair', { ww: ww, vw: vw });
 };
 
+Client.prototype.rebuild = function (opts) {
+  this.socket.emit('rebuild',opts);
+};
+
 Client.prototype.vote = function (id) {
   this.socket.emit('vote', id);
 };
