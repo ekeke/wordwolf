@@ -67,6 +67,7 @@
           <div class="js-for-master">
             ゲームマスターはゲームには参加できません＞＜
             議論終了まで <span class="js-timeout timeout" style="display: none;">888</span> 秒
+            <a href="#" id="commit">時短</a>
           </div>
         </div>
         <div class="js-village-screen js-village-screen-voting">
@@ -261,6 +262,10 @@
 
     $('.js-next-village').click( function () {
       client.nextVillage();
+    });
+
+    $('#commit').click( function () {
+      client.commit();
     });
 
   </script>

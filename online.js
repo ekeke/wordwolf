@@ -97,6 +97,13 @@ User.prototype.init = function (opts) {
     user.currentRoom.setWordpair(data);
   });
 
+  socket.on('commit', function (data) {
+    if ( user.currentRoom === lobby || user.currentRoom.masterId !== user.id ) {
+      return;
+    }
+    user.currentRoom.finishDiscussion();
+  });
+
   socket.on('vote', function (data) {
     if ( user.currentRoom === lobby || user.currentRoom.masterId === user.id ) {
       return;

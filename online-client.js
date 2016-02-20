@@ -278,6 +278,10 @@ Client.prototype.setName = function (name) {
   this.socket.emit('setName', name);
 };
 
+Client.prototype.commit = function (name) {
+  this.socket.emit('commit', name);
+};
+
 Client.prototype.postWordpair = function (vw,ww) {
   $.ajax({
     data: JSON.stringify({
