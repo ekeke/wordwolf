@@ -111,9 +111,6 @@
             <span class="js-result js-result-villagerBanished">村人が追放されました。人狼の勝利です。</span>
           </div>
           <div class="js-result-table-wrapper"></div>
-        </div>
-
-        <div class="js-village-screen js-village-screen-postwordpair">
           <h2>word-wolf.comに問題を投稿</h2>
           <div id="post-wordpair-wrapper">
             <p>
@@ -260,6 +257,10 @@
         $('.answer-village-word').text(),
         $('.answer-wolf-word').text()
       );
+    });
+
+    $('.js-next-village').click( function () {
+      client.nextVillage();
     });
 
   </script>

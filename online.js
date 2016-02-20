@@ -111,6 +111,13 @@ User.prototype.init = function (opts) {
     user.currentRoom.judgeRevenge(result);
   });
 
+  socket.on('nextVillage', function () {
+    if ( user.currentRoom === lobby || user.currentRoom.masterId !== user.id ) {
+      return;
+    }
+    user.currentRoom.nextVillage();
+  });
+
   socket.on('setName', function (name) {
     user.name = name;
     socket.emit('welcome', { id: user.id, name: user.name });
@@ -132,6 +139,14 @@ Room.prototype.init = function (opts) {
 
 Room.prototype.join = function (user) {
   this.member[user.id] = user;
+  if (({
+      intro: 1,
+      discussing: 1,
+      voting: 1,
+      revenge: 1
+    })[this.status] ) {
+    user.waiting = 1;
+  }
   user.currentRoom = this;
   user.socket.emit('entered', this.describe());
 };
@@ -147,6 +162,7 @@ Room.prototype.broadcast = function (type,msg) {
 };
 
 Room.prototype.canSpeak = function () {
+  if ( user.waiting ) return false;
   return true;
 };
 
@@ -454,13 +470,15 @@ Village.prototype.showResult = function (result) {
 
   this.setStatus('postmortem');
   clearTimeout(this.timer);
-  var village = this;
-  var now = (new Date()).getTime();
-  this.nextTimeout = now + 10000;
-  this.timer = setTimeout(function () {
-    village.setStatus('postwordpair');
-  }, 10000);
 };
+
+Village.prototype.nextVillage = function () {
+  this.setStatus('waiting');
+  for ( var id in this.member ) {
+    delete this.member[id]['waiting'];
+  }
+  this.sendMemberList();
+}
 
 function shuffle (array) {
   var len = array.length;

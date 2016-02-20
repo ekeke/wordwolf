@@ -249,6 +249,10 @@ Client.prototype.judgeRevenge = function (result) {
   this.socket.emit('judgeRevenge', result ? 'success' : 'fail');
 };
 
+Client.prototype.nextVillage = function () {
+  this.socket.emit('nextVillage');
+};
+
 Client.prototype.showTimeout = function () {
   clearTimeout(this.timeoutTimer);
   var client = this;
