@@ -68,13 +68,19 @@ User.prototype.init = function (opts) {
     user.currentRoom.build(opts);
   });
 
+  socket.on('setWolfNum', function (num) {
+    if ( user.currentRoom === lobby || user.currentRoom.owner !== user || user.currentRoom.status !== 'prebuild' ) {
+      return;
+    }
+    user.currentRoom.numWolves = parseInt(num);
+  });
+
   socket.on('rebuildVillage', function (opts) {
 //    if ( user.currentRoom === lobby || user.currentRoom.masterId !== user || user.currentRoom.status !== 'intro' ) {
 //      return;
 //    }
     user.currentRoom.startIntro();
   });
-
 
   socket.on('leaveVillage', function () {
     if ( user.currentRoom === lobby || user.currentRoom.status !== 'waiting' ) {
@@ -407,7 +413,9 @@ Village.prototype.judgeRevenge = function (result) {
 Village.prototype.roll = function () {
   // bring role (master/villager/wolf) to villagers randomly
   var roles = [];
-  var villagers = this.count() - ( 1 + this.numWolves ); // GM and wolves
+  var count = this.count();
+  this.numWolves = Math.floor(count / 3);
+  var villagers = count - ( 1 + this.numWolves ); // GM and wolves
   for ( var i=0; i<villagers; i++ ) {
     roles.push('villager');
   }

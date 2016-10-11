@@ -73,10 +73,8 @@ var server = require('http').createServer(function (req,res) {
 
 server.listen(4111);
 
-
 var io = socketio.listen( server );
 var lobby = new online.Lobby();
 io.sockets.on( 'connection', function( socket ) {
   var user = new online.User({socket: socket});
-
 });
