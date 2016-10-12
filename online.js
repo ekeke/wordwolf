@@ -89,10 +89,11 @@ User.prototype.init = function (opts) {
     user.currentRoom.leave(user);
   });
 
-  socket.on('start', function () {
+  socket.on('start', function (numWolves) {
     if ( user.currentRoom === lobby || user.currentRoom.owner !== user || user.currentRoom.status !== 'waiting' ) {
       return;
     }
+    user.currentRoom.numWolves = parseInt(numWolves);
     user.currentRoom.startIntro();
   });
 
@@ -366,6 +367,7 @@ Village.prototype.finishDiscussion = function () {
 
 Village.prototype.finishVoting = function () {
   var counts = {};
+  delete this.voteMap[this.masterId];
   for ( var from in this.voteMap ) {
     var to = this.voteMap[from];
     if ( ! counts[to] ) {
@@ -414,7 +416,7 @@ Village.prototype.roll = function () {
   // bring role (master/villager/wolf) to villagers randomly
   var roles = [];
   var count = this.count();
-  this.numWolves = Math.floor(count / 3);
+  //this.numWolves = Math.floor(count / 3);
   var villagers = count - ( 1 + this.numWolves ); // GM and wolves
   for ( var i=0; i<villagers; i++ ) {
     roles.push('villager');

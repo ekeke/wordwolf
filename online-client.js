@@ -227,7 +227,7 @@ Client.prototype.buildVillage = function (opts) {
 };
 
 Client.prototype.start = function () {
-  this.socket.emit('start');
+  this.socket.emit('start', $('.js-num-wolves').val());
 };
 
 Client.prototype.commitWordpair = function (ww,vw) {
